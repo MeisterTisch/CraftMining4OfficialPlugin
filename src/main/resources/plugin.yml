@@ -1,0 +1,8 @@
+name: CraftMining4OfficialPlugin
+version: '${version}'
+main: org.craftmining.craftmining4officialplugin.CraftMining4OfficialPlugin
+api-version: '1.20'
+prefix: CM4
+load: STARTUP
+authors: [MeisterTisch]
+description: Das ist der Offizielle Plugin von und für Craft Mining 4
