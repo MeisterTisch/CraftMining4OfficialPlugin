@@ -10,3 +10,5 @@ commands:
   flyhigh:
     description: Teste die Elytra Funktion.
 permissions:
+  CraftMining4OfficialPlugin.flyhigh:
+    default: op

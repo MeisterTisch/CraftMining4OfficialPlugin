@@ -1,6 +1,7 @@
 package org.craftmining.craftmining4officialplugin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +19,8 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
     public void onEnable() {
         pluginManager = Bukkit.getPluginManager();
 
+        this.saveDefaultConfig();
+
         PlayerManagerFile.setup();
         PlayerManagerFile.getConfig().options().copyDefaults(true);
         PlayerManagerFile.saveConfig();
@@ -30,7 +33,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         MutedPlayersFile.getConfig().options().copyDefaults(true);
         MutedPlayersFile.saveConfig();
 
-//        checkIfSeasonHasBegun();
+        checkIfSeasonHasBegun();
 
         //LISTENERS
         pluginManager.registerEvents(new NoShitDoingWhenSeasonHasNotBegun(this), this);
@@ -47,9 +50,14 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
 
     private void checkIfSeasonHasBegun(){
         if(getConfig().getBoolean("hasSeasonBegun")){
+            //Season has begun
+            Bukkit.getWorld("world").getWorldBorder().setSize(300000);
 
         } else {
-
+            //Season hasn't begun yet
+            Bukkit.getWorld("world").getWorldBorder().setCenter(-492.5, -63.5);
+            Bukkit.getWorld("world").getWorldBorder().setSize(10);
+            for(Player player : Bukkit.getOnlinePlayers()) player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.1, -63.5, 0,0));
         }
     }
 }

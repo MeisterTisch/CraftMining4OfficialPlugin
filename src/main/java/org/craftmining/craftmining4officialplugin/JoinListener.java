@@ -1,5 +1,8 @@
 package org.craftmining.craftmining4officialplugin;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,8 +17,16 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void playerJoinsServer(PlayerJoinEvent event){
-        if(!PlayerManagerFile.getConfig().contains(event.getPlayer().getDisplayName())){
+        Player player = event.getPlayer();
 
+        if(!plugin.getConfig().getBoolean("hasSeasonBegun")){
+            player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.1, -63.5, 0,0));
+
+
+        } else {
+            if(!PlayerManagerFile.getConfig().contains(event.getPlayer().getDisplayName())){
+
+            }
         }
     }
 }
