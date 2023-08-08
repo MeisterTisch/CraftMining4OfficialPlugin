@@ -1,7 +1,9 @@
-TAB LISTE Header: WILLKOMMEN ZU CM4
-FIRST TIME PLAYER JOIN:
-    Welcome Message
-    Am Spawn Elytra fly away and never have it again. lol
-msg system
-ban kick mute system
-s
+- `/ping`
+- Commandblocker wie z.B. für `/plugin`
+- Regel akzeptieren am Anfang.
+- Diverse Admincommands, wie z.B. `/ban`, `/kick`, `/invsee` und etc.
+- Zugang zum TPS-Command für diverse Leute (nicht alle)
+- Eigenes MSG-System (mit evtl. Offline Message da lassen)
+- First Time Join: Gruß-Message im Chat & vom Spawn aus mit Elytra wegfliegen können. (Spawnpoint in der Höhe, Elytra automatisch verschwunden danach)
+- Tablist-Header: "Willkommen bei CM4" oder so
+- Spuckencommand

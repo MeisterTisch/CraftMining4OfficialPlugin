@@ -3,6 +3,7 @@ package org.craftmining.craftmining4officialplugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 
 public class JoinListener implements Listener {
     private final CraftMining4OfficialPlugin plugin;

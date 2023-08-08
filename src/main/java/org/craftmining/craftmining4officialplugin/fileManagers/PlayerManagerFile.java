@@ -1,4 +1,4 @@
-package org.craftmining.craftmining4officialplugin;
+package org.craftmining.craftmining4officialplugin.fileManagers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
