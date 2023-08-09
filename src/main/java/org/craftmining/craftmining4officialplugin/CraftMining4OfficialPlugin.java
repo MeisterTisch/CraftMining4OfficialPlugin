@@ -2,6 +2,7 @@ package org.craftmining.craftmining4officialplugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,10 +11,10 @@ import org.craftmining.craftmining4officialplugin.elytraBegin.PlayerLandedEvent;
 import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
+import org.craftmining.craftmining4officialplugin.fun.PfuCommand;
 
 public final class CraftMining4OfficialPlugin extends JavaPlugin {
     PluginManager pluginManager;
-    private final CraftMining4OfficialPlugin plugin = this;
 
     @Override
     public void onEnable() {
@@ -40,7 +41,8 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         pluginManager.registerEvents(new PlayerLandedEvent(), this);
 
         //COMMANDS
-        getCommand("flyhigh").setExecutor(new FlyHighCommand(plugin));
+        getCommand("flyhigh").setExecutor(new FlyHighCommand(this));
+        getCommand("pfu").setExecutor(new PfuCommand());
     }
 
     @Override
@@ -51,13 +53,21 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
     private void checkIfSeasonHasBegun(){
         if(getConfig().getBoolean("hasSeasonBegun")){
             //Season has begun
-            Bukkit.getWorld("world").getWorldBorder().setSize(300000);
+            Bukkit.getWorlds().get(0).getWorldBorder().setSize(300000);
 
         } else {
             //Season hasn't begun yet
-            Bukkit.getWorld("world").getWorldBorder().setCenter(-492.5, -63.5);
-            Bukkit.getWorld("world").getWorldBorder().setSize(10);
-            for(Player player : Bukkit.getOnlinePlayers()) player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.1, -63.5, 0,0));
+            Bukkit.getWorlds().get(0).getWorldBorder().setCenter(-492.5, -63.5);
+            Bukkit.getWorlds().get(0).getWorldBorder().setSize(9);
+            for(Player player : Bukkit.getOnlinePlayers()) player.teleport(new Location(Bukkit.getWorlds().get(0), -492.5, 151.1, -63.5, 0,0));
+
+            for(int i = 0; i <= 4; i++){
+                for (int x = -493-i; x <= -493+i; x++) {
+                    for (int z = -64-i; z <= -64+i; z++) {
+                        Bukkit.getWorlds().get(0).getBlockAt(x, 146+i, z).setType(Material.STONE);
+                    }
+                }
+            }
         }
     }
 }

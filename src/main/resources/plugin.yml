@@ -9,6 +9,8 @@ description: Das ist der Offizielle Plugin von und für Craft Mining 4
 commands:
   flyhigh:
     description: Teste die Elytra Funktion.
+  pfu:
+    description: Spucke jemanden ab!
 permissions:
   CraftMining4OfficialPlugin.flyhigh:
     default: op
