@@ -1,6 +1,5 @@
-package org.craftmining.craftmining4officialplugin.elytraBegin;
+package org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

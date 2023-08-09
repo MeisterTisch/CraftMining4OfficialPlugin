@@ -4,13 +4,17 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.craftmining.craftmining4officialplugin.elytraBegin.FlyHighCommand;
-import org.craftmining.craftmining4officialplugin.elytraBegin.PlayerLandedEvent;
+import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
+import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.FlyHighCommand;
+import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.PlayerLandedEvent;
 import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 import org.craftmining.craftmining4officialplugin.fun.PfuCommand;
 import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
+import org.craftmining.craftmining4officialplugin.newPlayers.rules.JoinListener;
+import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
+import org.craftmining.craftmining4officialplugin.newPlayers.rules.MoveListener;
 
 public final class CraftMining4OfficialPlugin extends JavaPlugin {
     PluginManager pluginManager;
@@ -26,7 +30,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         this.saveDefaultConfig();
 
         PlayerManagerFile.setup();
-        PlayerManagerFile.getConfig().options().copyDefaults(true);
+//        PlayerManagerFile.getConfig().options().copyDefaults(true);
         PlayerManagerFile.saveConfig();
 
         BannedPlayersFile.setup();
@@ -43,10 +47,14 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         pluginManager.registerEvents(new NoShitDoingWhenSeasonHasNotBegun(this), this);
         pluginManager.registerEvents(new PlayerLandedEvent(), this);
         pluginManager.registerEvents(new AnnouncingAchievements(), this);
+        pluginManager.registerEvents(new MoveListener(), this);
+        pluginManager.registerEvents(new JoinListener(this), this);
 
         //COMMANDS
         getCommand("flyhigh").setExecutor(new FlyHighCommand(this));
         getCommand("pfu").setExecutor(new PfuCommand());
+        getCommand("rules").setExecutor(new RulesCommand());
+        getCommand("start").setExecutor(new StartSeasonCommand(this));
     }
 
     @Override
@@ -63,7 +71,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
             //Season hasn't begun yet
             Bukkit.getWorlds().get(0).getWorldBorder().setCenter(-492.5, -63.5);
             Bukkit.getWorlds().get(0).getWorldBorder().setSize(9);
-            for(Player player : Bukkit.getOnlinePlayers()) player.teleport(new Location(Bukkit.getWorlds().get(0), -492.5, 151.1, -63.5, 0,0));
+            for(Player player : Bukkit.getOnlinePlayers()) player.teleport(new Location(Bukkit.getWorlds().get(0), -492.5, 151.0, -63.5, 0,0));
 
             for(int i = 0; i <= 4; i++){
                 for (int x = -493-i; x <= -493+i; x++) {

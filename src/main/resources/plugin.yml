@@ -3,7 +3,7 @@ version: '${version}'
 main: org.craftmining.craftmining4officialplugin.CraftMining4OfficialPlugin
 api-version: '1.20'
 prefix: CM4
-load: STARTUP
+load: POSTWORLD
 authors: [MeisterTisch]
 description: Das ist der Offizielle Plugin von und für Craft Mining 4
 commands:
@@ -11,6 +11,13 @@ commands:
     description: Teste die Elytra Funktion.
   pfu:
     description: Spucke jemanden ab!
+  rules:
+    description: Zeige dir die Regeln an!
+  start:
+    description: Starte die Season!
+    permission: CraftMining4OfficialPlugin.startSeason
 permissions:
   CraftMining4OfficialPlugin.flyhigh:
+    default: op
+  CraftMining4OfficialPlugin.startSeason:
     default: op
