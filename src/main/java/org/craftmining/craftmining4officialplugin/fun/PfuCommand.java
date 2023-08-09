@@ -15,7 +15,7 @@ public class PfuCommand implements CommandExecutor {
         if(sender instanceof Player player){
             if(args.length == 0){
                 player.getWorld().spawn(player.getEyeLocation(), LlamaSpit.class,
-                        llamaSpit -> llamaSpit.setVelocity(player.getEyeLocation().getDirection().multiply(0.5)));
+                        llamaSpit -> llamaSpit.setVelocity(player.getEyeLocation().getDirection().multiply(0.75)));
             } else player.sendMessage(ChatColor.RED + "Bitte nutze folgenden Command so: \n"
                                     + ChatColor.GOLD + "/pfu");
         } else sender.sendMessage(ChatColor.RED + "Diesen Command kann nur ein Spieler ausführen!");
