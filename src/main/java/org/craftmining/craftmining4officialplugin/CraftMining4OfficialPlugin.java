@@ -1,8 +1,6 @@
 package org.craftmining.craftmining4officialplugin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,6 +10,7 @@ import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile
 import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 import org.craftmining.craftmining4officialplugin.fun.PfuCommand;
+import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
 
 public final class CraftMining4OfficialPlugin extends JavaPlugin {
     PluginManager pluginManager;
@@ -19,6 +18,10 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         pluginManager = Bukkit.getPluginManager();
+
+        for(World world : Bukkit.getWorlds()){
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+        }
 
         this.saveDefaultConfig();
 
@@ -39,6 +42,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         //LISTENERS
         pluginManager.registerEvents(new NoShitDoingWhenSeasonHasNotBegun(this), this);
         pluginManager.registerEvents(new PlayerLandedEvent(), this);
+        pluginManager.registerEvents(new AnnouncingAchievements(), this);
 
         //COMMANDS
         getCommand("flyhigh").setExecutor(new FlyHighCommand(this));

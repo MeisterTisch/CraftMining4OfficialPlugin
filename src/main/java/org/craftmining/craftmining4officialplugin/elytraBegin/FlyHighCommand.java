@@ -41,6 +41,6 @@ public class FlyHighCommand implements CommandExecutor {
 
         player.setVelocity(new Vector(0,15,0));
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> player.setVelocity(player.getEyeLocation().getDirection().multiply(2.5)), 25);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> player.setVelocity(player.getEyeLocation().getDirection().multiply(1.5)), 25);
     }
 }
