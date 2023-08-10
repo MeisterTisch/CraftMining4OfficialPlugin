@@ -23,10 +23,12 @@ public class StartSeasonCommand implements CommandExecutor {
             if(player.hasPermission("CraftMining4OfficialPlugin.startSeason")){
                 if(args.length == 0){
                     plugin.getConfig().set("hasSeasonBegun", true);
+                    plugin.saveConfig();
                     for(Player player1 : Bukkit.getOnlinePlayers()){
                         if(PlayerManagerFile.getConfig().getBoolean(player1.getDisplayName()+".hasAcceptedRules"))
                             Intros.showFirstTimeIntro(player1);
                     }
+                    Bukkit.getWorlds().get(0).getWorldBorder().setSize(300000,60);
                 } else player.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n"
                 + ChatColor.GOLD + "/start");
             } else player.sendMessage(ChatColor.RED + "Diesen Command darfst du nicht ausführen!");

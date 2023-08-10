@@ -12,10 +12,10 @@ import org.craftmining.craftmining4officialplugin.CraftMining4OfficialPlugin;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 import org.craftmining.craftmining4officialplugin.newPlayers.Intros;
 
-public class JoinListener implements Listener {
+public class JoinListenerForRules implements Listener {
     private final CraftMining4OfficialPlugin plugin;
 
-    public JoinListener(CraftMining4OfficialPlugin plugin) {
+    public JoinListenerForRules(CraftMining4OfficialPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -24,6 +24,7 @@ public class JoinListener implements Listener {
      * hasJumpedAlready: boolean
      * hasAcceptedRules: boolean
      * gotFirstTimeIntro: boolean
+     * sentFirstTimeMessage: boolean
      *
      */
 
@@ -31,7 +32,6 @@ public class JoinListener implements Listener {
     int taskID;
     Player player;
     @EventHandler
-    @SuppressWarnings("Deprecated")
     public void playerJoinsServer(PlayerJoinEvent event){
         player = event.getPlayer();
         String name = player.getDisplayName();
@@ -44,6 +44,8 @@ public class JoinListener implements Listener {
             PlayerManagerFile.getConfig().set(name + ".hasAcceptedRules", false);
         if(!PlayerManagerFile.getConfig().contains(name+".gotFirstTimeIntro"))
             PlayerManagerFile.getConfig().set(name + ".gotFirstTimeIntro", false);
+        if(!PlayerManagerFile.getConfig().contains(name+".sentFirstTimeMessage"))
+            PlayerManagerFile.getConfig().set(name + ".sentFirstTimeMessage", false);
         PlayerManagerFile.saveConfig();
 
         //Rules NOT accepted, Ignored Season Start
@@ -51,11 +53,11 @@ public class JoinListener implements Listener {
             player.sendMessage(ChatColor.RED + "Bitte akzeptiere die Regeln!\n" +
                     ChatColor.RED + "Schreibe: " + ChatColor.GOLD + "/rules" + ChatColor.RED + " um diese durchzulesen!");
 
-            taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> {
+            taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
                 if(PlayerManagerFile.getConfig().getBoolean(name+".hasAcceptedRules")){
                     Bukkit.getScheduler().cancelTask(taskID);
                 }
-                if(i == 20*60) Bukkit.getScheduler().runTask(plugin, () -> player.kickPlayer(ChatColor.RED + "Du hast zu lange gebraucht, die Regeln zu akzeptieren.\n" +
+                if(i == 20*150) Bukkit.getScheduler().runTask(plugin, () -> player.kickPlayer(ChatColor.RED + "Du hast zu lange gebraucht, die Regeln zu akzeptieren.\n" +
                         ChatColor.RED + "Bitte rejoine um es erneut zu versuchen!"));
                 i++;
             }, 0, 1);

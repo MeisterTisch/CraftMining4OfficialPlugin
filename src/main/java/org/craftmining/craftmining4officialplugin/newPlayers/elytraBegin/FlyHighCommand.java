@@ -41,11 +41,9 @@ public class FlyHighCommand implements CommandExecutor {
         elytraMeta.setLocalizedName("Temporärer Elytra");
         elytra.setItemMeta(elytraMeta);
         player.getInventory().setChestplate(elytra);
-
         player.setVelocity(new Vector(0,15,0));
-
         Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> player.setVelocity(player.getEyeLocation().getDirection().multiply(1.5)), 25);
-
+        player.setGliding(true);
         PlayerManagerFile.getConfig().set(player.getDisplayName()+".hasJumpedAlready", true);
         PlayerManagerFile.saveConfig();
     }

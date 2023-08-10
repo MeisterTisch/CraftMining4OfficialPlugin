@@ -18,9 +18,9 @@ public class RulesCommand implements TabExecutor {
         } else if(args.length == 1){
             if(args[0].equalsIgnoreCase("accept")){
                 if(sender instanceof Player player) {
+                    player.kickPlayer(ChatColor.GREEN + "Du hast die Regeln akzeptiert! Viel Spaß!");
                     PlayerManagerFile.getConfig().set(player.getDisplayName() + ".hasAcceptedRules", true);
                     PlayerManagerFile.saveConfig();
-                    player.kickPlayer(ChatColor.GREEN + "Du hast die Regeln akzeptiert! Viel Spaß!");
                 } else sender.sendMessage(ChatColor.RED + "Regeln akzeptieren können nur Spieler!");
             } else if(args[0].equalsIgnoreCase("decline")){
                 if(sender instanceof Player player) {

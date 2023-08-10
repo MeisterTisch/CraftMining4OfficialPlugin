@@ -13,16 +13,20 @@ public class AnnouncingAchievements implements Listener {
     public void announcingAchievementExpectFlyHighElytra(PlayerAdvancementDoneEvent event){
         Player player = event.getPlayer();
 
-        if(event.getAdvancement().getDisplay().getTitle().equals("Sky's the Limit")){
-            if(event.getPlayer().getInventory().getChestplate() != null){
-                if(event.getPlayer().getInventory().getChestplate().hasItemMeta()){
-                    if(event.getPlayer().getInventory().getChestplate().getItemMeta().hasLocalizedName()){
-                        if(event.getPlayer().getInventory().getChestplate().getItemMeta().getLocalizedName().equals("Temporärer Elytra")){
-                            AdvancementProgress progress = player.getAdvancementProgress(event.getAdvancement());
-                            for (String criteria : event.getAdvancement().getCriteria()) {
-                                progress.revokeCriteria(criteria);
+        if(event.getAdvancement().getDisplay() == null) return;
+
+        if(event.getAdvancement().getDisplay().getTitle() != null){
+            if (event.getAdvancement().getDisplay().getTitle().equals("Sky's the Limit")) {
+                if (event.getPlayer().getInventory().getChestplate() != null) {
+                    if (event.getPlayer().getInventory().getChestplate().hasItemMeta()) {
+                        if (event.getPlayer().getInventory().getChestplate().getItemMeta().hasLocalizedName()) {
+                            if (event.getPlayer().getInventory().getChestplate().getItemMeta().getLocalizedName().equals("Temporärer Elytra")) {
+                                AdvancementProgress progress = player.getAdvancementProgress(event.getAdvancement());
+                                for (String criteria : event.getAdvancement().getCriteria()) {
+                                    progress.revokeCriteria(criteria);
+                                }
+                                return;
                             }
-                            return;
                         }
                     }
                 }
