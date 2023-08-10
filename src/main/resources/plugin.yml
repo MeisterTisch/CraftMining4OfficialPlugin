@@ -16,8 +16,13 @@ commands:
   start:
     description: Starte die Season!
     permission: CraftMining4OfficialPlugin.startSeason
+  ping:
+    description: Teste deinen Ping zum Server. Pong!
+    permission: CraftMining4OfficialPlugin.ping
 permissions:
   CraftMining4OfficialPlugin.flyhigh:
     default: op
   CraftMining4OfficialPlugin.startSeason:
     default: op
+  CraftMining4OfficialPlugin.ping:
+    default: true
