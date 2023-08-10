@@ -19,6 +19,8 @@ commands:
   ping:
     description: Teste deinen Ping zum Server. Pong!
     permission: CraftMining4OfficialPlugin.ping
+  msg:
+    description: Schreibe jemandem eine Nachricht.
 permissions:
   CraftMining4OfficialPlugin.flyhigh:
     default: op
