@@ -36,8 +36,12 @@ public class RulesCommand implements TabExecutor {
     }
 
     public static void showRules(CommandSender sender){
-        sender.sendMessage(ChatColor.GOLD + "Hier findest du die Regeln: https://shorturl.at/eDETZ (Dieser Link ist sicher und führt zu den Regeln.)\n" +
-                ChatColor.GOLD + "Akzeptierst du es? Dann schreibe " + ChatColor.GREEN + "/rules accept" + ChatColor.GOLD + ".");
+        if(sender instanceof Player player){
+            if(PlayerManagerFile.getConfig().getBoolean(player.getDisplayName()+".hasAcceptedRules"))
+                player.sendMessage(ChatColor.GOLD + "Hier findest du die Regeln: https://shorturl.at/eDETZ (Dieser Link ist sicher und führt zu den Regeln.)");
+            else player.sendMessage(ChatColor.GOLD + "Hier findest du die Regeln: https://shorturl.at/eDETZ (Dieser Link ist sicher und führt zu den Regeln.)\n" +
+                    ChatColor.GOLD + "Akzeptierst du es? Dann schreibe " + ChatColor.GREEN + "/rules accept" + ChatColor.GOLD + ".");
+        } else sender.sendMessage(ChatColor.GOLD + "Hier findest du die Regeln: https://shorturl.at/eDETZ (Dieser Link ist sicher und führt zu den Regeln.)");
     }
 
     @Override

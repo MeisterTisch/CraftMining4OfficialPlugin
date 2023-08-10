@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
-import org.craftmining.craftmining4officialplugin.misc.NoShitDoingWhenSeasonHasNotBegun;
+import org.craftmining.craftmining4officialplugin.misc.NoShitDoingAtSpawn;
 import org.craftmining.craftmining4officialplugin.newPlayers.JoinAndQuitListener;
 import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.FlyHighCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.PlayerLandedEvent;
@@ -41,6 +41,18 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         }
 
         for(Player player : Bukkit.getOnlinePlayers()){
+            String name = player.getDisplayName();
+
+            if(!PlayerManagerFile.getConfig().contains(name+".hasJumpedAlready"))
+                PlayerManagerFile.getConfig().set(name + ".hasJumpedAlready", false);
+            if(!PlayerManagerFile.getConfig().contains(name+".hasAcceptedRules"))
+                PlayerManagerFile.getConfig().set(name + ".hasAcceptedRules", false);
+            if(!PlayerManagerFile.getConfig().contains(name+".gotFirstTimeIntro"))
+                PlayerManagerFile.getConfig().set(name + ".gotFirstTimeIntro", false);
+            if(!PlayerManagerFile.getConfig().contains(name+".sentFirstTimeMessage"))
+                PlayerManagerFile.getConfig().set(name + ".sentFirstTimeMessage", false);
+            PlayerManagerFile.saveConfig();
+
             if(!PlayerManagerFile.getConfig().getBoolean(player.getDisplayName()+".hasAcceptedRules")){
                 player.sendMessage(ChatColor.RED + "Bitte akzeptiere die Regeln!\n" +
                         ChatColor.RED + "Schreibe: " + ChatColor.GOLD + "/rules" + ChatColor.RED + " um diese durchzulesen!");
@@ -48,7 +60,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         }
 
         //LISTENERS
-        pluginManager.registerEvents(new NoShitDoingWhenSeasonHasNotBegun(), this);
+        pluginManager.registerEvents(new NoShitDoingAtSpawn(), this);
         pluginManager.registerEvents(new PlayerLandedEvent(), this);
         pluginManager.registerEvents(new AnnouncingAchievements(), this);
         pluginManager.registerEvents(new MoveListener(), this);

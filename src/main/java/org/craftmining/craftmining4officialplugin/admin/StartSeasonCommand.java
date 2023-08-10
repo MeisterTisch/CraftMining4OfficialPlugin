@@ -26,7 +26,7 @@ public class StartSeasonCommand implements CommandExecutor {
                     plugin.saveConfig();
                     for(Player player1 : Bukkit.getOnlinePlayers()){
                         if(PlayerManagerFile.getConfig().getBoolean(player1.getDisplayName()+".hasAcceptedRules"))
-                            Intros.showFirstTimeIntro(player1);
+                            new Intros().showFirstTimeIntro(player1);
                     }
                     Bukkit.getWorlds().get(0).getWorldBorder().setSize(300000,60);
                 } else player.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n"

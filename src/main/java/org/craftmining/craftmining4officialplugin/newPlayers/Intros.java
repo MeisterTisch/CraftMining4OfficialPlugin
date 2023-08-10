@@ -19,43 +19,51 @@ import java.util.concurrent.TimeUnit;
 public class Intros {
     private static final List<Player> playerList = new ArrayList<>();
     private static final CraftMining4OfficialPlugin plugin = CraftMining4OfficialPlugin.getPlugin();
-    private static ScheduledExecutorService service;
-    private static ScheduledFuture scheduledFuture;
-    static int i = 0;
+    private ScheduledExecutorService service;
+    private ScheduledFuture scheduledFuture;
+    int i = 0;
 
-    public static void showFirstTimeIntro(Player player){
+    public Intros(){
+
+    }
+
+    public void showFirstTimeIntro(Player player){
         service = Executors.newSingleThreadScheduledExecutor();
         playerList.add(player);
 
         scheduledFuture = service.scheduleAtFixedRate(() -> {
             if(i == 0){
-                Bukkit.getScheduler().runTask(plugin, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 450, 255)));
+                Bukkit.getScheduler().runTask(plugin, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 640, 255)));
                 player.sendTitle(ChatColor.GREEN + "Es ist wieder Zeit...", "", 40, 50, 20);
             } else if(i == 40+50+20){
                 player.sendTitle(ChatColor.GREEN + "Craft Mining...", ChatColor.BLUE + "...geht in die nächste Season.", 40, 50, 20);
             } else if(i == (40+50+20)*2){
                 player.sendTitle(ChatColor.GREEN + "Seit ihr bereit...", ChatColor.BLUE + "...für die vierte Staffel?", 40, 50, 20);
             } else if(i == (40+50+20)*3){
+                player.sendTitle(ChatColor.GREEN + "Die Elytra verschwindet...", ChatColor.BLUE + "...sobald du gelandet bist!", 40, 50, 20);
+            } else if(i == (40+50+20)*4){
+                player.sendTitle(ChatColor.GREEN + "Also pass auf...", ChatColor.BLUE + "...wenn du fliegst.", 40, 50, 20);
+            } else if(i == (40+50+20)*5){
                 player.sendTitle(ChatColor.RED + "5", "", 5, 10, 5);
-            } else if(i == (40+50+20)*3+20){
+            } else if(i == (40+50+20)*5+20){
                 player.sendTitle(ChatColor.RED + "4", "", 5, 10, 5);
-            } else if(i == (40+50+20)*3+20*2){
+            } else if(i == (40+50+20)*5+20*2){
                 player.sendTitle(ChatColor.YELLOW + "3", "", 5, 10, 5);
-            } else if(i == (40+50+20)*3+20*3){
+            } else if(i == (40+50+20)*5+20*3){
                 player.sendTitle(ChatColor.YELLOW + "2", "", 5, 10, 5);
-            } else if(i == (40+50+20)*3+20*4){
+            } else if(i == (40+50+20)*5+20*4){
                 player.sendTitle(ChatColor.GREEN + "1", "", 5, 10, 5);
-            } else if(i == (40+50+20)*3+20*5){
+            } else if(i == (40+50+20)*5+20*5){
                 player.sendTitle(ChatColor.GREEN + "START!", "", 5, 10, 25);
                 playerList.remove(player);
                 FlyHighCommand.letItFly(player);
                 PlayerManagerFile.getConfig().set(player.getDisplayName()+".gotFirstTimeIntro", true);
                 PlayerManagerFile.saveConfig();
-            } else if(i == (40+50+20)*3+20*6){
+            } else if(i == (40+50+20)*5+20*6){
                 scheduledFuture.cancel(true);
             }
             i++;
-        }, 0, 1, TimeUnit.MILLISECONDS);
+        }, 0, 50, TimeUnit.MILLISECONDS);
     }
     public static void showShortIntro(Player player){
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*2, 255));

@@ -72,7 +72,7 @@ public class JoinListenerForRules implements Listener {
             if(!PlayerManagerFile.getConfig().getBoolean(name+".hasJumpedAlready")) player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.0, -63.5, 0, 0));
             if(PlayerManagerFile.getConfig().getBoolean(name+".hasAcceptedRules")){
                 if(!(PlayerManagerFile.getConfig().getBoolean(name+".gotFirstTimeIntro")))
-                    Bukkit.getScheduler().runTask(plugin, () -> Intros.showFirstTimeIntro(player));
+                    Bukkit.getScheduler().runTask(plugin, () -> new Intros().showFirstTimeIntro(player));
                 else Bukkit.getScheduler().runTask(plugin, () -> Intros.showShortIntro(player));
             }
         }
