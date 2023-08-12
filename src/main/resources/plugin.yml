@@ -21,6 +21,10 @@ commands:
     permission: CraftMining4OfficialPlugin.ping
   msg:
     description: Schreibe jemandem eine Nachricht.
+    aliases:
+      - r
+      - reply
+      - message
 permissions:
   CraftMining4OfficialPlugin.flyhigh:
     default: op

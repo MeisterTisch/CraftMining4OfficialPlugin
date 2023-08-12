@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
 import org.craftmining.craftmining4officialplugin.misc.NoShitDoingAtSpawn;
 import org.craftmining.craftmining4officialplugin.misc.PingCommand;
+import org.craftmining.craftmining4officialplugin.msgSystem.MsgCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.JoinAndQuitListener;
 import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.FlyHighCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.PlayerLandedEvent;
@@ -74,6 +75,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("rules").setExecutor(new RulesCommand());
         getCommand("start").setExecutor(new StartSeasonCommand(this));
         getCommand("ping").setExecutor(new PingCommand());
+        getCommand("msg").setExecutor(new MsgCommand());
     }
 
     @Override
