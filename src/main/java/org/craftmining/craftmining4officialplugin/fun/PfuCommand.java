@@ -1,6 +1,8 @@
 package org.craftmining.craftmining4officialplugin.fun;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +16,7 @@ public class PfuCommand implements CommandExecutor {
             if(args.length == 0){
                 player.getWorld().spawn(player.getEyeLocation(), LlamaSpit.class,
                         llamaSpit -> llamaSpit.setVelocity(player.getEyeLocation().getDirection().multiply(0.75)));
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, SoundCategory.PLAYERS, 1,1);
             } else player.sendMessage(ChatColor.RED + "Bitte nutze folgenden Command so: \n"
                                     + ChatColor.GOLD + "/pfu");
         } else sender.sendMessage(ChatColor.RED + "Diesen Command kann nur ein Spieler ausführen!");
