@@ -11,6 +11,8 @@ commands:
     description: Teste die Elytra Funktion.
   pfu:
     description: Spucke jemanden ab!
+    aliases:
+      - spit
   rules:
     description: Zeige dir die Regeln an!
   start:
