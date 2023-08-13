@@ -48,7 +48,7 @@ public class JoinListenerForRules implements Listener {
             PlayerManagerFile.getConfig().set(name + ".sentFirstTimeMessage", false);
         PlayerManagerFile.saveConfig();
 
-        //Rules NOT accepted, Ignored Season Start
+        //Rules NOT accepted, Ignored Season Start TODO: BUG AFTER ACCEPT STILL KICK AFTER TIME RAN OUT
         if(!PlayerManagerFile.getConfig().getBoolean(name+".hasAcceptedRules")){
             player.sendMessage(ChatColor.RED + "Bitte akzeptiere die Regeln!\n" +
                     ChatColor.RED + "Schreibe: " + ChatColor.GOLD + "/rules" + ChatColor.RED + " um diese durchzulesen!");
