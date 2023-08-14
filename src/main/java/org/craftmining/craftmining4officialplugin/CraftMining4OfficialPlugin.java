@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
+import org.craftmining.craftmining4officialplugin.admin.listening.MessageListener;
 import org.craftmining.craftmining4officialplugin.misc.NoShitDoingAtSpawn;
 import org.craftmining.craftmining4officialplugin.misc.PingCommand;
 import org.craftmining.craftmining4officialplugin.msgSystem.MsgCommand;
@@ -68,6 +69,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         pluginManager.registerEvents(new MoveListener(), this);
         pluginManager.registerEvents(new JoinListenerForRules(this), this);
         pluginManager.registerEvents(new JoinAndQuitListener(), this);
+        pluginManager.registerEvents(new MessageListener(), this);
 
         //COMMANDS
         getCommand("flyhigh").setExecutor(new FlyHighCommand(this));

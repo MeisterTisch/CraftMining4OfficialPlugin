@@ -36,6 +36,7 @@ public class MsgCommand implements TabExecutor {
                                     ChatColor.GRAY + message);
                             map.put(player, target);
                             map.put(target, player);
+                            Bukkit.getPluginManager().callEvent(new PrivateMessageSentEvent(player, target, message));
                         } else player.sendMessage(ChatColor.RED + "Du kannst dir selber keine Nachricht schreiben.");
                     } else
                         player.sendMessage(ChatColor.GOLD + args[0] + ChatColor.RED + " ist nicht auf diesem Server!");
@@ -59,6 +60,7 @@ public class MsgCommand implements TabExecutor {
                                     ChatColor.GRAY + message);
                             map.put(player, target);
                             map.put(target, player);
+                            Bukkit.getPluginManager().callEvent(new PrivateMessageSentEvent(player, target, message));
                         } else player.sendMessage(ChatColor.RED + "Du kannst dir selber keine Nachricht schreiben.");
                     } else
                         player.sendMessage(ChatColor.GOLD + args[0] + ChatColor.RED + " ist nicht auf diesem Server!");
@@ -82,6 +84,7 @@ public class MsgCommand implements TabExecutor {
                             sender.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Du" +
                                     ChatColor.BLUE + " -> " + ChatColor.GREEN + target.getDisplayName() + ChatColor.BLUE + "] " +
                                     ChatColor.GRAY + message);
+                            Bukkit.getPluginManager().callEvent(new PrivateMessageSentEvent(sender, target, message));
                     } else
                         sender.sendMessage(ChatColor.GOLD + args[0] + ChatColor.RED + " ist nicht auf diesem Server!");
                 } else
