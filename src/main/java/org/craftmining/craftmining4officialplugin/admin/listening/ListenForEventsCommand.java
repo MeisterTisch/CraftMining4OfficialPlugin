@@ -1,5 +1,6 @@
 package org.craftmining.craftmining4officialplugin.admin.listening;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,93 +22,125 @@ public class ListenForEventsCommand implements TabExecutor {
 
                             if (args[1].equalsIgnoreCase("on")) {
                                 if (args.length == 2) {
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", true);
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.typeOfListening", "on");
-                                    PlayerManagerFile.saveConfig();
-                                    player.sendMessage(ChatColor.BLUE + "Du hörst nun " + ChatColor.GREEN + "allen" + ChatColor.BLUE + " Privatmessages zu!");
+                                    if(!PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("on")){
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", true);
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.typeOfListening", "on");
+                                        PlayerManagerFile.saveConfig();
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst nun " + ChatColor.GREEN + "allen" + ChatColor.BLUE + " Privatmessages zu!");
+                                    } else
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon allen" + ChatColor.BLUE + " Privatmessages zu!");
                                 } else
-                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                            ChatColor.GOLD + "/listen messages on");
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages on");
 
 
                             } else if (args[1].equalsIgnoreCase("off")) {
                                 if (args.length == 2) {
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", false);
-                                    PlayerManagerFile.saveConfig();
-                                    player.sendMessage(ChatColor.BLUE + "Du hörst nun " + ChatColor.GREEN + "keinen" + ChatColor.BLUE + " Privatmessages mehr zu!");
+                                    if(!PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("off")){
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", false);
+                                        PlayerManagerFile.saveConfig();
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst nun " + ChatColor.GREEN + "keinen" + ChatColor.BLUE + " Privatmessages mehr zu!");
+                                    } else
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon keinen" + ChatColor.BLUE + " Privatmessages mehr zu!");
                                 } else
-                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                            ChatColor.GOLD + "/listen messages off");
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages off");
 
 
                             } else if (args[1].equalsIgnoreCase("players")) {
                                 if (args.length == 2) {
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", true);
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.typeOfListening", "players");
-                                    PlayerManagerFile.saveConfig();
+                                    if(!PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.messages.typeOfListening").equalsIgnoreCase("players")){
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", true);
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.typeOfListening", "players");
+                                        PlayerManagerFile.saveConfig();
 
-                                    StringBuilder string = new StringBuilder();
-                                    string.append(ChatColor.BLUE + "Du hörst nun Privatmessages von folgenden Leuten zu:\n");
-                                    for (String listPlayer : PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList")) {
-                                        string.append(ChatColor.GREEN + listPlayer + ChatColor.GRAY + ", ");
-                                    }
-                                    player.sendMessage(String.valueOf(string));
+                                        StringBuilder string = new StringBuilder();
+                                        string.append(ChatColor.BLUE + "Du hörst nun Privatmessages von folgenden Leuten zu:\n");
+                                        for (String listPlayer : PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList")) {
+                                            //TODO: BETTER MAKEN
+                                            string.append(ChatColor.GREEN + listPlayer + ChatColor.GRAY + ", ");
+                                        }
+                                        player.sendMessage(String.valueOf(string));
+                                    } else
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu!");
+                                } else if(args.length == 3){
+                                    if(args[2].equalsIgnoreCase("list")){
+                                        StringBuilder string = new StringBuilder();
+                                        string.append(ChatColor.BLUE + "Folgende Leute sind in deiner Liste:\n");
+                                        for (String listPlayer : PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList")) {
+                                            //TODO: BETTER MAKEN
+                                            string.append(ChatColor.GREEN + listPlayer + ChatColor.GRAY + ", ");
+                                        }
+                                        player.sendMessage(String.valueOf(string));
+                                    } else
+                                        player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages players [list]");
                                 } else
-                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                            ChatColor.GOLD + "/listen messages players");
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages players [list]");
 
 
                             } else if (args[1].equalsIgnoreCase("console")) {
                                 if (args.length == 2) {
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", true);
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.typeOfListening", "console");
-                                    PlayerManagerFile.saveConfig();
-                                    player.sendMessage(ChatColor.BLUE + "Du hörst nun Privatmessages von der " + ChatColor.GREEN + "Konsole" + ChatColor.BLUE + " zu!");
+                                    if(!PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.messages.typeOfListening").equalsIgnoreCase("console")){
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.isListening", true);
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.typeOfListening", "console");
+                                        PlayerManagerFile.saveConfig();
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst nun Privatmessages von der " + ChatColor.GREEN + "Konsole" + ChatColor.BLUE + " zu!");
+                                    } else
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon die Privatmessages der Konsole" + ChatColor.BLUE + " zu!");
                                 } else
-                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                            ChatColor.GOLD + "/listen messages console");
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages console");
 
 
                             } else if (args[1].equalsIgnoreCase("addplayer")) {
                                 if (args.length == 3) {
-                                    if (PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList").add(args[2])) {
+                                    if (!PlayerManagerFile.getConfig().contains(player.getDisplayName() + ".listener.messages.playersList")) {
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.playersList", new ArrayList<String>());
+                                        PlayerManagerFile.saveConfig();
+                                        PlayerManagerFile.reload();
+                                    }
+                                    if (!PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList").contains(args[2])) {
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
+                                        Bukkit.broadcastMessage(String.valueOf(list));
+                                        list.add(args[2]);
+                                        Bukkit.broadcastMessage(String.valueOf(list));
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.playersList", list);
                                         PlayerManagerFile.saveConfig();
                                         player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[2] + ChatColor.BLUE + " zu deiner Liste hinzugefügt!");
+
                                     } else
-                                        player.sendMessage(ChatColor.GREEN + args[2] + ChatColor.BLUE + " konnte nicht zu deiner Liste hinzugefügt werden!");
+                                        player.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " ist schon in deiner Liste!");
 
                                 } else
-                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                            ChatColor.GOLD + "/listen messages addplayer <Spieler>");
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages addplayer <Spieler>");
 
 
                             } else if (args[1].equalsIgnoreCase("removeplayer")) {
                                 if (args.length == 3) {
-                                    if (PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList").remove(args[2])) {
+                                    if (PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList").contains(args[2])) {
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
+                                        Bukkit.broadcastMessage(String.valueOf(list));
+                                        list.remove(args[2]);
+                                        Bukkit.broadcastMessage(String.valueOf(list));
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.messages.playersList", list);
                                         PlayerManagerFile.saveConfig();
                                         player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[2] + ChatColor.BLUE + " aus deiner Liste entfernt!");
+
                                     } else
-                                        player.sendMessage(ChatColor.GREEN + args[2] + ChatColor.BLUE + " konnte nicht aus deiner Liste entfernt werden!");
+                                        player.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " ist nicht in deiner Liste!");
                                 } else
-                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                            ChatColor.GOLD + "/listen messages removeplayer <Spieler>");
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages removeplayer <Spieler>");
                             }
-
-
                         } else
-                            player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                                    ChatColor.GOLD + "/listen messages <on/off/players/console/addplayer/removeplayer> ...");
-                    }
+                            player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages <on/off/players/console/addplayer/removeplayer> ...");
+
+                    } else
+                        player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen <messages/travel/blockplace/blockbreak> ...");
 
                 } else
-                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
-                            ChatColor.GOLD + "/listen <type> ...");
-            } else
-                player.sendMessage(ChatColor.RED + "Du hast dazu keine Rechte!");
-        } else
-            sender.sendMessage(ChatColor.RED + "Diesen Command kann nur ein Spieler ausführen!");
+                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen <messages/travel/blockplace/blockbreak> ...");
+            } else player.sendMessage(ChatColor.RED + "Du hast dazu keine Rechte!");
+        } else sender.sendMessage(ChatColor.RED + "Diesen Command kann nur ein Spieler ausführen!");
         return true;
     }
+
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -174,7 +207,8 @@ public class ListenForEventsCommand implements TabExecutor {
                 if (sender instanceof Player player) {
                     return PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
                 }
-            }
+            } else if(args[0].equalsIgnoreCase("messages") && args[1].equalsIgnoreCase("players"))
+                list.add("list");
         }
 
         return list;

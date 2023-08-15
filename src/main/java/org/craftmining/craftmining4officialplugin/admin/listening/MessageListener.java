@@ -20,13 +20,17 @@ public class MessageListener implements Listener {
         List<Player> listeningPlayersList = new ArrayList<>();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (PlayerManagerFile.getConfig().getBoolean(player.getDisplayName() + ".listening.messages.isListening"))
+            Bukkit.broadcastMessage(player.getDisplayName());
+            if (PlayerManagerFile.getConfig().getBoolean(player.getDisplayName() + ".listener.messages.isListening")) {
+                Bukkit.broadcastMessage("TRUE: " + player.getDisplayName());
                 listeningPlayersList.add(player);
+                Bukkit.broadcastMessage(PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening"));
+            }
         }
 
         for (Player player : listeningPlayersList) {
             // ON
-            if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listening.messages.typeOfListening").equalsIgnoreCase("on")) {
+            if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("on")) {
                 if (event.getSender() instanceof Player sender)
                     player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + sender.getDisplayName() +
                             ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
@@ -45,15 +49,15 @@ public class MessageListener implements Listener {
                             ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
 
                 //CONSOLE
-            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listening.messages.typeOfListening").equalsIgnoreCase("console")) {
+            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("console")) {
                 if (event.getSender() instanceof ConsoleCommandSender)
                     player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "" + ChatColor.UNDERLINE + "Konsole" +
                             ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
                             ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
 
                 //PLAYERS
-            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listening.messages.typeOfListening").equalsIgnoreCase("players")) {
-                for (String listPlayer : PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listening.messages.playersList")) {
+            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("players")) {
+                for (String listPlayer : PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList")) {
                     if (Bukkit.getPlayer(listPlayer) == event.getTarget()) {
                         if (event.getSender() instanceof Player sender) {
                             player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + sender.getDisplayName() +
