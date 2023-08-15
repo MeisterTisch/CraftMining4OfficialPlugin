@@ -20,67 +20,47 @@ public class MessageListener implements Listener {
         List<Player> listeningPlayersList = new ArrayList<>();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Bukkit.broadcastMessage(player.getDisplayName());
             if (PlayerManagerFile.getConfig().getBoolean(player.getDisplayName() + ".listener.messages.isListening")) {
-                Bukkit.broadcastMessage("TRUE: " + player.getDisplayName());
                 listeningPlayersList.add(player);
-                Bukkit.broadcastMessage(PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening"));
             }
         }
 
         for (Player player : listeningPlayersList) {
             // ON
-            if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("on")) {
+            if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("on")
+                    && event.getSender() != player && event.getTarget() != player) {
                 if (event.getSender() instanceof Player sender)
-                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + sender.getDisplayName() +
-                            ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
-                            ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + sender.getDisplayName() + ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                 else if (event.getSender() instanceof ConsoleCommandSender)
-                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Konsole" +
-                            ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
-                            ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Konsole" + ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                 else if (event.getSender() instanceof CommandBlock)
-                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Command Block" +
-                            ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
-                            ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Command Block" + ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                 else
-                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Unbekannte Quelle" +
-                            ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
-                            ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Unbekannte Quelle" + ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
 
                 //CONSOLE
-            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("console")) {
+            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("console")
+                    && event.getSender() != player && event.getTarget() != player) {
                 if (event.getSender() instanceof ConsoleCommandSender)
-                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "" + ChatColor.UNDERLINE + "Konsole" +
-                            ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
-                            ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                    player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "" + ChatColor.UNDERLINE + "Konsole" + ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
 
                 //PLAYERS
-            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("players")) {
+            } else if (PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.messages.typeOfListening").equalsIgnoreCase("players")
+                    && event.getSender() != player && event.getTarget() != player) {
                 for (String listPlayer : PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList")) {
                     if (Bukkit.getPlayer(listPlayer) == event.getTarget()) {
                         if (event.getSender() instanceof Player sender) {
-                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + sender.getDisplayName() +
-                                    ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() +
-                                    ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + sender.getDisplayName() + ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                         } else if (event.getSender() instanceof ConsoleCommandSender) {
-                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Konsole" +
-                                    ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() +
-                                    ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Konsole" + ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                         } else if (event.getSender() instanceof CommandBlock) {
-                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Command Block" +
-                                    ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() +
-                                    ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Command Block" + ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                         } else {
-                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Unbekannte Quelle" +
-                                    ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() +
-                                    ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                            player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Unbekannte Quelle" + ChatColor.BLUE + " -> " + ChatColor.GREEN + "" + ChatColor.UNDERLINE + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                         }
                     } else if (Bukkit.getPlayer(listPlayer) == event.getSender()) {
                         Player sender = (Player) event.getSender();
-                        player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "" + ChatColor.UNDERLINE + sender.getDisplayName() +
-                                ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() +
-                                ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
+                        player.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "" + ChatColor.UNDERLINE + sender.getDisplayName() + ChatColor.BLUE + " -> " + ChatColor.GREEN + event.getTarget().getDisplayName() + ChatColor.BLUE + "] " + ChatColor.GRAY + event.getMessage());
                     }
                 }
             }
