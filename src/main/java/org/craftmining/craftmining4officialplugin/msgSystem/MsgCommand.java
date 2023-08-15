@@ -63,7 +63,8 @@ public class MsgCommand implements TabExecutor {
                             Bukkit.getPluginManager().callEvent(new PrivateMessageSentEvent(player, target, message));
                         } else player.sendMessage(ChatColor.RED + "Du kannst dir selber keine Nachricht schreiben.");
                     } else
-                        player.sendMessage(ChatColor.GOLD + args[0] + ChatColor.RED + " ist nicht auf diesem Server!");
+                        player.sendMessage(ChatColor.RED + "Du hast gerade niemanden zu antworten! Bitte nutze folgenden Command:\n"
+                                + ChatColor.GOLD + "/msg <Spieler> <Nachricht...>");
                 } else
                     player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" +
                             ChatColor.GOLD + "/reply <Nachricht...>");

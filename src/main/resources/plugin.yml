@@ -27,6 +27,9 @@ commands:
       - r
       - reply
       - message
+  listen:
+    permission:
+      CraftMining4OfficialPlugin.listen
 permissions:
   CraftMining4OfficialPlugin.flyhigh:
     default: op
@@ -34,3 +37,5 @@ permissions:
     default: op
   CraftMining4OfficialPlugin.ping:
     default: true
+  CraftMining4OfficialPlugin.listen:
+    default: op

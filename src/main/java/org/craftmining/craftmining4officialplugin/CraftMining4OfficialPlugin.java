@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
+import org.craftmining.craftmining4officialplugin.admin.listening.ListenForEventsCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.MessageListener;
 import org.craftmining.craftmining4officialplugin.misc.NoShitDoingAtSpawn;
 import org.craftmining.craftmining4officialplugin.misc.PingCommand;
@@ -78,6 +79,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("start").setExecutor(new StartSeasonCommand(this));
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("msg").setExecutor(new MsgCommand());
+        getCommand("listen").setExecutor(new ListenForEventsCommand());
     }
 
     @Override
