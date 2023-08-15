@@ -12,6 +12,13 @@ import org.craftmining.craftmining4officialplugin.CraftMining4OfficialPlugin;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 import org.craftmining.craftmining4officialplugin.newPlayers.Intros;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 public class JoinListenerForRules implements Listener {
     private final CraftMining4OfficialPlugin plugin;
 
@@ -29,7 +36,6 @@ public class JoinListenerForRules implements Listener {
      */
 
     int i = 0;
-    int taskID;
     Player player;
     @EventHandler
     public void playerJoinsServer(PlayerJoinEvent event){
@@ -48,38 +54,20 @@ public class JoinListenerForRules implements Listener {
             PlayerManagerFile.getConfig().set(name + ".sentFirstTimeMessage", false);
         PlayerManagerFile.saveConfig();
 
-        //Rules NOT accepted, Ignored Season Start TODO: BUG AFTER ACCEPT STILL KICK AFTER TIME RAN OUT
         if(!PlayerManagerFile.getConfig().getBoolean(name+".hasAcceptedRules")){
+            player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.0, -63.5, 0, 0));
             player.sendMessage(ChatColor.RED + "Bitte akzeptiere die Regeln!\n" +
                     ChatColor.RED + "Schreibe: " + ChatColor.GOLD + "/rules" + ChatColor.RED + " um diese durchzulesen!");
-
-            taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-                if(PlayerManagerFile.getConfig().getBoolean(name+".hasAcceptedRules")){
-                    Bukkit.getScheduler().cancelTask(taskID);
-                }
-                if(i == 20*150) Bukkit.getScheduler().runTask(plugin, () -> player.kickPlayer(ChatColor.RED + "Du hast zu lange gebraucht, die Regeln zu akzeptieren.\n" +
-                        ChatColor.RED + "Bitte rejoine um es erneut zu versuchen!"));
-                i++;
-            }, 0, 1);
-        }
-
-        //Season hasn't Started
-        if(!plugin.getConfig().getBoolean("hasSeasonBegun")) {
-            player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.0, -63.5, 0, 0));
-        }
-        //Season started
-        else {
-            if(!PlayerManagerFile.getConfig().getBoolean(name+".hasJumpedAlready")) player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.0, -63.5, 0, 0));
-            if(PlayerManagerFile.getConfig().getBoolean(name+".hasAcceptedRules")){
-                if(!(PlayerManagerFile.getConfig().getBoolean(name+".gotFirstTimeIntro")))
+        } else {
+            if(plugin.getConfig().getBoolean("hasSeasonBegun")){
+                if(!PlayerManagerFile.getConfig().getBoolean(name + ".hasJumpedAlready")
+                && !PlayerManagerFile.getConfig().getBoolean(name + ".gotFirstTimeIntro")){
+                    player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.0, -63.5, 0, 0));
                     Bukkit.getScheduler().runTask(plugin, () -> new Intros().showFirstTimeIntro(player));
-                else Bukkit.getScheduler().runTask(plugin, () -> Intros.showShortIntro(player));
-            }
+                } else
+                    Bukkit.getScheduler().runTask(plugin, () -> Intros.showShortIntro(player));
+            } else
+                player.teleport(new Location(Bukkit.getWorld("world"), -492.5, 151.0, -63.5, 0, 0));
         }
-    }
-
-    @EventHandler
-    public void playerLeaves(PlayerQuitEvent event){
-        if(event.getPlayer() == player) Bukkit.getScheduler().cancelTask(taskID);
     }
 }
