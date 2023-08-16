@@ -15,7 +15,7 @@ public class JoinAndQuitListener implements Listener {
         String name = player.getDisplayName();
 
         player.setPlayerListHeaderFooter(
-                ChatColor.BLUE + "----------\n" + ChatColor.BLUE + "Craft Mining" + ChatColor.GREEN + "Season 4",
+                ChatColor.BLUE + "----------\n" + ChatColor.BLUE + "Craft Mining " + ChatColor.GREEN + "Season 4",
                 ChatColor.GRAY + ">>> Willkommen zurück, " + name + "! <<<\n" + ChatColor.GREEN + "----------");
 
 
