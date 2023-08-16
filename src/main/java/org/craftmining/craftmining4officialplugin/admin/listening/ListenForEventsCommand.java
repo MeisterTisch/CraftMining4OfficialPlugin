@@ -138,7 +138,6 @@ public class ListenForEventsCommand implements TabExecutor {
                         } else
                             player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages <on/off/players/console/addplayer/removeplayer> ...");
                     } else if(args[0].equalsIgnoreCase("travel")){
-
                         if(args.length != 1){
                             if(args[1].equalsIgnoreCase("on")){
                                 if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("on")){
@@ -157,49 +156,91 @@ public class ListenForEventsCommand implements TabExecutor {
                                 } else
                                     player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon keinen" + ChatColor.BLUE + " Travels mehr zu.");
                             } else if(args[1].equalsIgnoreCase("worlds")){
-                                if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("worlds")){
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.isListening", true);
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.typeOfListening", "worlds");
-                                    PlayerManagerFile.saveConfig();
+                                if(args.length == 2){
+                                    if (!PlayerManagerFile.getConfig().contains(player.getDisplayName() + ".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.travel.typeOfListening").equalsIgnoreCase("worlds")) {
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.isListening", true);
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.typeOfListening", "worlds");
+                                        PlayerManagerFile.saveConfig();
 
-                                    StringBuilder string = new StringBuilder();
-                                    string.append(ChatColor.BLUE + "Du hörst nun Travels von folgenden Welten zu:\n");
-                                    List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList");
-                                    if (list.isEmpty()) {
-                                        string.append(ChatColor.RED + "Es ist keine Welt in deiner Liste drinnen!");
-                                    } else {
-                                        for (int i = 1; i <= list.size(); i++) {
-                                            if (i == list.size())
-                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
-                                            else
-                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                        StringBuilder string = new StringBuilder();
+                                        string.append(ChatColor.BLUE + "Du hörst nun Travels von folgenden Welten zu:\n");
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList");
+                                        if (list.isEmpty()) {
+                                            string.append(ChatColor.RED + "Es ist keine Welt in deiner Liste drinnen!");
+                                        } else {
+                                            for (int i = 1; i <= list.size(); i++) {
+                                                if (i == list.size())
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                                else
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                            }
                                         }
-                                    }
-                                    player.sendMessage(String.valueOf(string));
+                                        player.sendMessage(String.valueOf(string));
+                                    } else
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu.");
+                                } else if(args.length == 3){
+                                    if(args[2].equalsIgnoreCase("list")){
+                                        StringBuilder string = new StringBuilder();
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList");
+                                        if (list.isEmpty()) {
+                                            string.append(ChatColor.RED + "Es ist keine Welt in deiner Liste drinnen!");
+                                        } else {
+                                            string.append(ChatColor.BLUE + "Folgende Welten sind in deiner Liste:\n");
+                                            for (int i = 1; i <= list.size(); i++) {
+                                                if (i == list.size())
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                                else
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                            }
+                                        }
+                                        player.sendMessage(String.valueOf(string));
+                                    } else
+                                        player.sendMessage(ChatColor.RED+"Bitte benutze den Command so:\n"+ChatColor.GOLD + "/listen travel worlds [list]");
                                 } else
-                                    player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu.");
+                                    player.sendMessage(ChatColor.RED+"Bitte benutze den Command so:\n"+ChatColor.GOLD + "/listen travel worlds [list]");
                             } else if(args[1].equalsIgnoreCase("players")){
-                                if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("players")){
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.isListening", true);
-                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.typeOfListening", "players");
-                                    PlayerManagerFile.saveConfig();
+                                if(args.length == 2){
+                                    if (!PlayerManagerFile.getConfig().contains(player.getDisplayName() + ".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName() + ".listener.travel.typeOfListening").equalsIgnoreCase("players")) {
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.isListening", true);
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.typeOfListening", "players");
+                                        PlayerManagerFile.saveConfig();
 
-                                    StringBuilder string = new StringBuilder();
-                                    string.append(ChatColor.BLUE + "Du hörst nun Travels von folgenden Spielern zu:\n");
-                                    List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList");
-                                    if (list.isEmpty()) {
-                                        string.append(ChatColor.RED + "Es ist keiner in deiner Liste drinnen!");
-                                    } else {
-                                        for (int i = 1; i <= list.size(); i++) {
-                                            if (i == list.size())
-                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
-                                            else
-                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                        StringBuilder string = new StringBuilder();
+                                        string.append(ChatColor.BLUE + "Du hörst nun Travels von folgenden Spielern zu:\n");
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList");
+                                        if (list.isEmpty()) {
+                                            string.append(ChatColor.RED + "Es ist keiner in deiner Liste drinnen!");
+                                        } else {
+                                            for (int i = 1; i <= list.size(); i++) {
+                                                if (i == list.size())
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                                else
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                            }
                                         }
-                                    }
-                                    player.sendMessage(String.valueOf(string));
+                                        player.sendMessage(String.valueOf(string));
+                                    } else
+                                        player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu.");
+                                } else if(args.length == 3){
+                                    if(args[2].equalsIgnoreCase("list")){
+                                        StringBuilder string = new StringBuilder();
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList");
+                                        if (list.isEmpty()) {
+                                            string.append(ChatColor.RED + "Es ist keiner in deiner Liste drinnen!");
+                                        } else {
+                                            string.append(ChatColor.BLUE + "Folgende Spieler sind in deiner Liste:\n");
+                                            for (int i = 1; i <= list.size(); i++) {
+                                                if (i == list.size())
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                                else
+                                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                            }
+                                        }
+                                        player.sendMessage(String.valueOf(string));
+                                    } else
+                                        player.sendMessage(ChatColor.RED+"Bitte benutze den Command so:\n"+ChatColor.GOLD + "/listen travel players [list]");
                                 } else
-                                    player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu.");
+                                    player.sendMessage(ChatColor.RED+"Bitte benutze den Command so:\n"+ChatColor.GOLD + "/listen travel players [list]");
                             } else if(args[1].equalsIgnoreCase("addplayer")){
                                 if (args.length == 3) {
                                     if (!PlayerManagerFile.getConfig().contains(player.getDisplayName() + ".listener.travel.playersList")) {
@@ -303,8 +344,8 @@ public class ListenForEventsCommand implements TabExecutor {
 
             list.add("messages");
             list.add("travel");
-            list.add("blockplace");
-            list.add("blockbreak");
+//            list.add("blockplace");
+//            list.add("blockbreak");
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("messages")) {
                 /**
