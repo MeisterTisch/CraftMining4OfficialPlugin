@@ -9,6 +9,7 @@ description: Das ist der Offizielle Plugin von und für Craft Mining 4
 commands:
   flyhigh:
     description: Teste die Elytra Funktion.
+  test:
   pfu:
     description: Spucke jemanden ab!
     aliases:

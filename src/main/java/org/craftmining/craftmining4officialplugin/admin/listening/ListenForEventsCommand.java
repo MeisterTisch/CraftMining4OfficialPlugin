@@ -2,6 +2,7 @@ package org.craftmining.craftmining4officialplugin.admin.listening;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -49,9 +50,9 @@ public class ListenForEventsCommand implements TabExecutor {
 
                                         StringBuilder string = new StringBuilder();
                                         string.append(ChatColor.BLUE + "Du hörst nun Privatmessages von folgenden Leuten zu:\n");
-                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName()+".listener.messages.playersList");
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
 
-                                        if(list.isEmpty()){
+                                        if (list.isEmpty()) {
                                             string.append(ChatColor.RED + "Es ist keiner in deiner Liste drinnen!");
                                         } else {
                                             for (int i = 1; i <= list.size(); i++) {
@@ -69,8 +70,8 @@ public class ListenForEventsCommand implements TabExecutor {
                                     if (args[2].equalsIgnoreCase("list")) {
                                         StringBuilder string = new StringBuilder();
                                         string.append(ChatColor.BLUE + "Folgende Leute sind in deiner Liste:\n");
-                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName()+".listener.messages.playersList");
-                                        if(list.isEmpty()){
+                                        List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
+                                        if (list.isEmpty()) {
                                             string.append(ChatColor.RED + "Es ist keiner in deiner Liste drinnen!");
                                         } else {
                                             for (int i = 1; i <= list.size(); i++) {
@@ -103,7 +104,7 @@ public class ListenForEventsCommand implements TabExecutor {
                                         PlayerManagerFile.saveConfig();
                                         PlayerManagerFile.reload();
                                     }
-                                    if(!args[2].equalsIgnoreCase(player.getDisplayName())){
+                                    if (!args[2].equalsIgnoreCase(player.getDisplayName())) {
                                         if (!PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList").contains(args[2])) {
                                             List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
                                             list.add(args[2]);
@@ -118,7 +119,7 @@ public class ListenForEventsCommand implements TabExecutor {
                                     player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages addplayer <Spieler>");
                             } else if (args[1].equalsIgnoreCase("removeplayer")) {
                                 if (args.length == 3) {
-                                    if(!args[2].equalsIgnoreCase(player.getDisplayName())){
+                                    if (!args[2].equalsIgnoreCase(player.getDisplayName())) {
                                         if (PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList").contains(args[2])) {
                                             List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
                                             list.remove(args[2]);
@@ -136,6 +137,147 @@ public class ListenForEventsCommand implements TabExecutor {
                                 player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages <on/off/players/console/addplayer/removeplayer> ...");
                         } else
                             player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen messages <on/off/players/console/addplayer/removeplayer> ...");
+                    } else if(args[0].equalsIgnoreCase("travel")){
+
+                        if(args.length != 1){
+                            if(args[1].equalsIgnoreCase("on")){
+                                if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("on")){
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.isListening", true);
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.typeOfListening", "on");
+                                    PlayerManagerFile.saveConfig();
+                                    player.sendMessage(ChatColor.BLUE + "Du hörst nun" + ChatColor.GREEN + " allen " + ChatColor.BLUE + "Travels zu.");
+                                } else
+                                    player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon allen" + ChatColor.BLUE + " Travels zu.");
+                            } else if(args[1].equalsIgnoreCase("off")){
+                                if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("off")){
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.isListening", false);
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.typeOfListening", "off");
+                                    PlayerManagerFile.saveConfig();
+                                    player.sendMessage(ChatColor.BLUE + "Du hörst nun" + ChatColor.GREEN + " keinen " + ChatColor.BLUE + "Travels mehr zu.");
+                                } else
+                                    player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon keinen" + ChatColor.BLUE + " Travels mehr zu.");
+                            } else if(args[1].equalsIgnoreCase("worlds")){
+                                if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("worlds")){
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.isListening", true);
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.typeOfListening", "worlds");
+                                    PlayerManagerFile.saveConfig();
+
+                                    StringBuilder string = new StringBuilder();
+                                    string.append(ChatColor.BLUE + "Du hörst nun Travels von folgenden Welten zu:\n");
+                                    List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList");
+                                    if (list.isEmpty()) {
+                                        string.append(ChatColor.RED + "Es ist keine Welt in deiner Liste drinnen!");
+                                    } else {
+                                        for (int i = 1; i <= list.size(); i++) {
+                                            if (i == list.size())
+                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                            else
+                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                        }
+                                    }
+                                    player.sendMessage(String.valueOf(string));
+                                } else
+                                    player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu.");
+                            } else if(args[1].equalsIgnoreCase("players")){
+                                if(!PlayerManagerFile.getConfig().contains(player.getDisplayName()+".listener.travel.typeOfListening") || !PlayerManagerFile.getConfig().getString(player.getDisplayName()+".listener.travel.typeOfListening").equalsIgnoreCase("players")){
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.isListening", true);
+                                    PlayerManagerFile.getConfig().set(player.getDisplayName()+".listener.travel.typeOfListening", "players");
+                                    PlayerManagerFile.saveConfig();
+
+                                    StringBuilder string = new StringBuilder();
+                                    string.append(ChatColor.BLUE + "Du hörst nun Travels von folgenden Spielern zu:\n");
+                                    List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList");
+                                    if (list.isEmpty()) {
+                                        string.append(ChatColor.RED + "Es ist keiner in deiner Liste drinnen!");
+                                    } else {
+                                        for (int i = 1; i <= list.size(); i++) {
+                                            if (i == list.size())
+                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                            else
+                                                string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                        }
+                                    }
+                                    player.sendMessage(String.valueOf(string));
+                                } else
+                                    player.sendMessage(ChatColor.BLUE + "Du hörst " + ChatColor.GREEN + "schon deiner Liste" + ChatColor.BLUE + " zu.");
+                            } else if(args[1].equalsIgnoreCase("addplayer")){
+                                if (args.length == 3) {
+                                    if (!PlayerManagerFile.getConfig().contains(player.getDisplayName() + ".listener.travel.playersList")) {
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.playersList", new ArrayList<String>());
+                                        PlayerManagerFile.saveConfig();
+                                        PlayerManagerFile.reload();
+                                    }
+                                    if (!args[2].equalsIgnoreCase(player.getDisplayName())) {
+                                        if (!PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList").contains(args[2])) {
+                                            List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList");
+                                            list.add(args[2]);
+                                            PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.playersList", list);
+                                            PlayerManagerFile.saveConfig();
+                                            player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[2] + ChatColor.BLUE + " zu deiner Liste hinzugefügt!");
+                                        } else
+                                            player.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " ist schon in deiner Liste!");
+                                    } else
+                                        player.sendMessage(ChatColor.RED + "Du kannst dich selbst nicht zur Liste hinzufügen!");
+                                } else
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen travel addplayer <Spieler>");
+                            } else if (args[1].equalsIgnoreCase("removeplayer")) {
+                                if (args.length == 3) {
+                                    if (!args[2].equalsIgnoreCase(player.getDisplayName())) {
+                                        if (PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList").contains(args[2])) {
+                                            List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList");
+                                            list.remove(args[2]);
+                                            PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.playersList", list);
+                                            PlayerManagerFile.saveConfig();
+                                            player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[2] + ChatColor.BLUE + " aus deiner Liste entfernt!");
+
+                                        } else
+                                            player.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " ist nicht in deiner Liste!");
+                                    } else
+                                        player.sendMessage(ChatColor.RED + "Du kannst dich selbst nicht aus der Liste entfernen, da du dich auch nicht selbst hinzufügen kannst!");
+                                } else
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen travel removeplayer <Spieler>");
+                            } else if(args[1].equalsIgnoreCase("addworld")){
+                                if (args.length == 3) {
+                                    if (!PlayerManagerFile.getConfig().contains(player.getDisplayName() + ".listener.travel.worldsList")) {
+                                        PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.worldsList", new ArrayList<String>());
+                                        PlayerManagerFile.saveConfig();
+                                        PlayerManagerFile.reload();
+                                    }
+                                        if (!PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList").contains(args[2])) {
+                                            if(Bukkit.getWorlds().contains(Bukkit.getWorld(args[2]))){
+                                                List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList");
+                                                list.add(args[2]);
+                                                PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.worldsList", list);
+                                                PlayerManagerFile.saveConfig();
+                                                player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[2] + ChatColor.BLUE + " zu deiner Liste hinzugefügt!");
+                                            } else
+                                                player.sendMessage(ChatColor.RED + "Bitte gib eine gültige Welt an!");
+                                        } else
+                                            player.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " ist schon in deiner Liste!");
+                                } else
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen travel worldsList <Welt>");
+                            } else if (args[1].equalsIgnoreCase("removeworld")) {
+                                if (args.length == 3) {
+                                    if (!args[2].equalsIgnoreCase(player.getDisplayName())) {
+                                        if (PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList").contains(args[2])) {
+                                            List<String> list = PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.worldsList");
+                                            list.remove(args[2]);
+                                            PlayerManagerFile.getConfig().set(player.getDisplayName() + ".listener.travel.worldsList", list);
+                                            PlayerManagerFile.saveConfig();
+                                            player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[2] + ChatColor.BLUE + " aus deiner Liste entfernt!");
+
+                                        } else
+                                            player.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " ist nicht in deiner Liste!");
+                                    } else
+                                        player.sendMessage(ChatColor.RED + "Du kannst dich selbst nicht aus der Liste entfernen, da du dich auch nicht selbst hinzufügen kannst!");
+                                } else
+                                    player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen travel removeworld <Werlt>");
+                            } else
+                                player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen travel <on/off/players/console/addplayer/removeplayer/addworld/removeworld> ...");
+                        } else
+                            player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:n" +
+                                 ChatColor.GOLD + "/listen travel <on/off/worlds/players/addworld/removeworld/addplayer/removeplayer> ...");
+
                     } else
                         player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n" + ChatColor.GOLD + "/listen <messages/travel/blockplace/blockbreak> ...");
                 } else
@@ -187,9 +329,12 @@ public class ListenForEventsCommand implements TabExecutor {
                  */
                 list.add("addplayer");
                 list.add("removeplayer");
+                list.add("addworld");
+                list.add("removeworld");
                 list.add("on");
                 list.add("off");
-                list.add("world");
+                list.add("players");
+                list.add("worlds");
             } else if (args[0].equalsIgnoreCase("blockplace") || args[0].equalsIgnoreCase("blockbreak")) {
                 /**
                  * addplayer / removeplayer: add or remove player to/from the list of listening block place. If the player places a block it will be logged
@@ -201,19 +346,52 @@ public class ListenForEventsCommand implements TabExecutor {
                 list.add("removeplayer");
                 list.add("on");
                 list.add("off");
+                list.add("players");
+                list.add("blocks");
                 list.add("addblock");
                 list.add("removeblock");
             }
         } else if (args.length == 3) {
-            if (args[0].equalsIgnoreCase("messages") && args[1].equalsIgnoreCase("addplayer")) {
-                return null;
-            } else if (args[0].equalsIgnoreCase("messages") && args[1].equalsIgnoreCase("removeplayer")) {
-                if (sender instanceof Player player) {
-                    return PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.messages.playersList");
-                }
-            } else if (args[0].equalsIgnoreCase("messages") && args[1].equalsIgnoreCase("players")) list.add("list");
-        }
 
+            if(args[0].equalsIgnoreCase("messages")){
+                if(args[1].equalsIgnoreCase("addplayer"))
+                    return null;
+                else if(args[1].equalsIgnoreCase("removeplayer"))
+                    if(sender instanceof Player player)
+                        return PlayerManagerFile.getConfig().getStringList(player.getDisplayName()+".listener.messages.playersList");
+                else if(args[1].equalsIgnoreCase("players"))
+                    list.add("list");
+
+            } else if(args[0].equalsIgnoreCase("travel")){
+                if(args[1].equalsIgnoreCase("addplayer")){
+                    Bukkit.broadcastMessage("return null");
+                    return null;
+                } else if(args[1].equalsIgnoreCase("removeplayer")){
+                    Bukkit.broadcastMessage("return playersList");
+                    if(sender instanceof Player player){
+                        Bukkit.broadcastMessage("List: " + PlayerManagerFile.getConfig().getStringList(player.getDisplayName() + ".listener.travel.playersList"));
+                        return PlayerManagerFile.getConfig().getStringList(player.getDisplayName()+".listener.travel.playersList");
+                    }
+                } else if(args[1].equalsIgnoreCase("addworld")) {
+                    Bukkit.broadcastMessage("return world");
+                    for(World world : Bukkit.getWorlds()){
+                        Bukkit.broadcastMessage("world name: " + world.getName());
+                        list.add(world.getName());
+                    }
+                    Bukkit.broadcastMessage("list: " + list);
+                } else if(args[1].equalsIgnoreCase("removeworld")){
+                    Bukkit.broadcastMessage("return worldsList");
+                    if(sender instanceof Player player){
+                        Bukkit.broadcastMessage("List: " + PlayerManagerFile.getConfig().getStringList(player.getDisplayName()+".listener.travel.worldsList"));
+                        return PlayerManagerFile.getConfig().getStringList(player.getDisplayName()+".listener.travel.worldsList");
+                    }
+                } else if(args[1].equalsIgnoreCase("worlds") || args[1].equalsIgnoreCase("players")){
+                    Bukkit.broadcastMessage("lists");
+                    list.add("lists");
+                    Bukkit.broadcastMessage("list: " + list);
+                }
+            }
+        }
         return list;
     }
 }

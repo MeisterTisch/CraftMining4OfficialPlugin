@@ -7,17 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.craftmining.craftmining4officialplugin.CraftMining4OfficialPlugin;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 import org.craftmining.craftmining4officialplugin.newPlayers.Intros;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public class JoinListenerForRules implements Listener {
     private final CraftMining4OfficialPlugin plugin;
@@ -35,7 +27,6 @@ public class JoinListenerForRules implements Listener {
      *
      */
 
-    int i = 0;
     Player player;
     @EventHandler
     public void playerJoinsServer(PlayerJoinEvent event){
