@@ -14,8 +14,9 @@ public class JoinAndQuitListener implements Listener {
         Player player = event.getPlayer();
         String name = player.getDisplayName();
 
-        player.setPlayerListHeaderFooter(ChatColor.BLUE + "Craft " + ChatColor.GREEN + "Mining",
-                ChatColor.GREEN + "Season " + ChatColor.BLUE + "4");
+        player.setPlayerListHeaderFooter(
+                ChatColor.BLUE + "----------\n" + ChatColor.BLUE + "Craft Mining" + ChatColor.GREEN + "Season 4",
+                ChatColor.GRAY + ">>> Willkommen zurück, " + name + "! <<<\n" + ChatColor.GREEN + "----------");
 
 
         if(!PlayerManagerFile.getConfig().getBoolean(name + ".hasAcceptedRules")) event.setJoinMessage("");
