@@ -23,6 +23,7 @@ import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.JoinListenerForRules;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.MoveListener;
+import org.craftmining.craftmining4officialplugin.teams.TeamsFile;
 
 public final class CraftMining4OfficialPlugin extends JavaPlugin {
     PluginManager pluginManager;
@@ -40,6 +41,8 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         BannedPlayersFile.saveConfig();
         MutedPlayersFile.setup();
         MutedPlayersFile.saveConfig();
+        TeamsFile.setup();
+        TeamsFile.saveConfig();
         checkIfSeasonHasBegun();
 
         for(World world : Bukkit.getWorlds()){

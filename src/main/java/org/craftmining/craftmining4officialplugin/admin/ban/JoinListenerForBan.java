@@ -1,4 +1,4 @@
-package org.craftmining.craftmining4officialplugin.admin;
+package org.craftmining.craftmining4officialplugin.admin.ban;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
