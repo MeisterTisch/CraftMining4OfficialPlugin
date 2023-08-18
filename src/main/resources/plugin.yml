@@ -39,4 +39,9 @@ commands:
     aliases:
       - unban
       - tempban
+  teams:
 permissions:
+  CraftMining4OfficialPlugin.teamsAdmin:
+    default: op
+  CraftMining4OfficialPlugin.listen:
+    default: op

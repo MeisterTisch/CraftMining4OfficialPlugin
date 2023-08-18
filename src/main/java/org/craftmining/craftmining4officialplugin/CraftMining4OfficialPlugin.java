@@ -23,6 +23,7 @@ import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.JoinListenerForRules;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.MoveListener;
+import org.craftmining.craftmining4officialplugin.teams.TeamsCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsFile;
 
 public final class CraftMining4OfficialPlugin extends JavaPlugin {
@@ -87,6 +88,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("msg").setExecutor(new MsgCommand());
         getCommand("listen").setExecutor(new ListenForEventsCommand());
         getCommand("test").setExecutor(new TestCommand());
+        getCommand("teams").setExecutor(new TeamsCommand());
     }
 
     @Override
