@@ -12,11 +12,11 @@ public class PingCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player player){
             if(args.length == 0){
-                if(Math.random() < 0.1){
+                if(Math.random() > 0.1){
                     player.sendMessage(ChatColor.BLUE + "Dein Ping zum Server liegt bei " +
                             ChatColor.GREEN + player.getPing() + ChatColor.BLUE + " ms.");
                 } else player.sendMessage(ChatColor.BLUE + "P" + ChatColor.GREEN + "O"
-                + ChatColor.BLUE + "N" + ChatColor.BLUE + "G" + ChatColor.GREEN + "!");
+                + ChatColor.BLUE + "N" + ChatColor.GREEN + "G" + ChatColor.BLUE + "!");
             } else if(args.length == 1){
                 Player target = Bukkit.getPlayer(args[0]);
                 if(target != null){
