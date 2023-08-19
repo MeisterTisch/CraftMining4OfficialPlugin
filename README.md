@@ -2,6 +2,9 @@
 Craft Mining is in its fourth Season now, and it needs a custom plugin with functions requested by its players.
 That's why I, MeisterTisch, one of the Admins at Craft Mining, created this plugin. I have some experience with Java and the Spigot API, but not that much, so excuse me if you find some code snippets odd.
 
+# DISCLAIMER:
+I am not the best at programming please don't flame me. Also there are two "commiters" at this project: one is me and the second one is me. At my laptop is the e-mail address kinda rigged and i don't know why and i don't how i fix this, but this is, how you say in german, scheiß egal :)
+
 # Firstly, what is Craft Mining?
 Craft Mining, as already said, is a survival Multiplayer Server. Every Season, up to 25 players come along to play some survival Minecraft together and enjoy the time.
 The players can create teams and even go to war against other teams (only if the opponent accepts). But most of the time, it's a very peaceful time here at Craft Mining.
