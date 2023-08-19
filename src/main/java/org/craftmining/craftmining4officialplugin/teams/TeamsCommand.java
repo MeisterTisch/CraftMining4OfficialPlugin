@@ -119,13 +119,22 @@ public class TeamsCommand implements TabExecutor {
                             }
                         }
                         if(!isInTeam) {
-
+                            if(TeamsFile.getConfig().getStringList("teamsList").contains(args[2])){
+                                
+                            } else
+                                sender.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " gibt es nicht!");
                         }
                     } else
                         sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
                                 ChatColor.GOLD + "/teams addplayer <playername> <teamname>");
                 } else if(args[0].equalsIgnoreCase("removeplayer")){
+                    if(args.length == 2){
 
+                    } else if(args.length == 3){
+
+                    } else
+                        sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                ChatColor.GOLD + "/teams removeplayer <player> confirm");
                 } else if(args[0].equalsIgnoreCase("whereis")){
                     if(args.length == 3){
                         if(args[1].equalsIgnoreCase("player")){
@@ -159,7 +168,9 @@ public class TeamsCommand implements TabExecutor {
                         } else
                             sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
                                     ChatColor.GOLD + "/teams whereis <player/color> <name>");
-                    }
+                    } else
+                        sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                ChatColor.GOLD + "/teams whereis <player/color> <name>");
                 }
             } else
                 sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
@@ -246,6 +257,7 @@ public class TeamsCommand implements TabExecutor {
         list.add("GREEN");
         list.add("AQUA");
         list.add("RED");
+        list.add("LIGHT_PURPLE");
         list.add("YELLOW");
         list.add("WHITE");
 
