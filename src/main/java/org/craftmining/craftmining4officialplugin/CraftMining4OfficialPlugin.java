@@ -9,20 +9,21 @@ import org.craftmining.craftmining4officialplugin.admin.TestCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.ListenForEventsCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.MessageListener;
 import org.craftmining.craftmining4officialplugin.admin.listening.TravelListener;
+import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile;
+import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
+import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
+import org.craftmining.craftmining4officialplugin.fun.PfuCommand;
+import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
+import org.craftmining.craftmining4officialplugin.misc.AsynChatListener;
 import org.craftmining.craftmining4officialplugin.misc.NoShitDoingAtSpawn;
 import org.craftmining.craftmining4officialplugin.misc.PingCommand;
 import org.craftmining.craftmining4officialplugin.msgSystem.MsgCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.JoinAndQuitListener;
 import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.FlyHighCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.PlayerLandedEvent;
-import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile;
-import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
-import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
-import org.craftmining.craftmining4officialplugin.fun.PfuCommand;
-import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.JoinListenerForRules;
-import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.MoveListener;
+import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsFile;
 
@@ -78,6 +79,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         pluginManager.registerEvents(new JoinAndQuitListener(), this);
         pluginManager.registerEvents(new MessageListener(), this);
         pluginManager.registerEvents(new TravelListener(), this);
+        pluginManager.registerEvents(new AsynChatListener(), this);
 
         //COMMANDS
         getCommand("flyhigh").setExecutor(new FlyHighCommand(this));

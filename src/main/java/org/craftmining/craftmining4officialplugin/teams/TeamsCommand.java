@@ -1,9 +1,12 @@
 package org.craftmining.craftmining4officialplugin.teams;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.craftmining.craftmining4officialplugin.newPlayers.JoinAndQuitListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,14 @@ public class TeamsCommand implements TabExecutor {
                         if(args.length == 2){
                             sender.sendMessage(ChatColor.RED + "Willst du wirklich Team " + ChatColor.GOLD + args[1] + ChatColor.RED + " löschen?\n" +
                                     ChatColor.RED + "Dann schreibe: " + ChatColor.GOLD + "/teams delete " + args[1] + " confirm");
-                        } else if(args.length == 3){
+                        } else if (args.length == 3 && args[2].equals("confirm")) {
+                            for (String player : TeamsFile.getConfig().getStringList(args[1] + ".playersList")) {
+                                if (Bukkit.getPlayer(player) != null) {
+                                    Bukkit.getPlayer(player).sendMessage(ChatColor.RED + "Dein Team, in dem du drinnen warst, wurde gelöscht!");
+                                    JoinAndQuitListener.preparePlayer(Bukkit.getPlayer(player));
+                                }
+                            }
+
                             List<String> list = TeamsFile.getConfig().getStringList("teamsList");
                             list.remove(args[1].toLowerCase(Locale.ROOT));
                             TeamsFile.getConfig().set("teamsList", list);
@@ -70,43 +80,101 @@ public class TeamsCommand implements TabExecutor {
                     } else
                         sender.sendMessage(ChatColor.RED + "Das Team " + ChatColor.GOLD + args[1] + ChatColor.RED + " gibt es nicht!");
                 } else if(args[0].equalsIgnoreCase("edit")){
-
-                } else if(args[0].equalsIgnoreCase("list")){
-                    if(args.length == 1){
-                        List<String> list = TeamsFile.getConfig().getStringList("teamsList");
-                        StringBuilder string = new StringBuilder();
-                        string.append(ChatColor.BLUE + "Es gibt " + ChatColor.GREEN + list.size() + ChatColor.BLUE +
-                                " Teams: \n");
-                        for(int i = 1; i <= list.size(); i++){
-                            if(i == list.size())
-                                string.append(ChatColor.GREEN + list.get(i-1) + ChatColor.BLUE + ".");
-                            else
-                                string.append(ChatColor.GREEN + list.get(i-1) + ChatColor.BLUE + ", ");
-                        }
-                        sender.sendMessage(string.toString());
-                    } else if(args.length == 2){
-                        if(TeamsFile.getConfig().getStringList("teamsList").contains(args[1].toLowerCase(Locale.ROOT))){
-                            if(TeamsFile.getConfig().contains(args[1].toLowerCase(Locale.ROOT) + ".playersList")
-                            && !TeamsFile.getConfig().getStringList(args[1].toLowerCase(Locale.ROOT) + ".playersList").isEmpty()){
-                                List<String> list = TeamsFile.getConfig().getStringList(args[1].toLowerCase(Locale.ROOT) + ".playersList");
-                                StringBuilder string = new StringBuilder();
-                                string.append(ChatColor.BLUE + "Es gibt " + ChatColor.GREEN + list.size() + ChatColor.BLUE +
-                                        " Spieler in diesem Team: \n");
-                                for(int i = 1; i <= list.size(); i++){
-                                    if(i == list.size())
-                                        string.append(ChatColor.GREEN + list.get(i-1) + ChatColor.BLUE + ".");
-                                    else
-                                        string.append(ChatColor.GREEN + list.get(i-1) + ChatColor.BLUE + ", ");
-                                }
-                                sender.sendMessage(string.toString());
+                    if (args.length == 4) {
+                        if (TeamsFile.getConfig().getStringList("teamsList").contains(args[1])) {
+                            if (args[2].equalsIgnoreCase("color")) {
+                                if (getColorsList().contains(args[3])) {
+                                    if (!TeamsFile.getConfig().getString(args[1] + ".color").equals(args[3])) {
+                                        TeamsFile.getConfig().set(args[1] + ".color", args[3]);
+                                        TeamsFile.saveConfig();
+                                        sender.sendMessage(ChatColor.BLUE + "Farbe " + ChatColor.valueOf(args[3]) + args[3] +
+                                                ChatColor.BLUE + " wurde gesetzt.");
+                                        for (String player : TeamsFile.getConfig().getStringList(args[1] + ".playersList"))
+                                            JoinAndQuitListener.preparePlayer(Bukkit.getPlayer(player));
+                                    } else
+                                        sender.sendMessage(ChatColor.RED + "Dieses Team hat schon die Farbe " + ChatColor.valueOf(args[3]));
+                                } else
+                                    sender.sendMessage(ChatColor.GOLD + args[3] + ChatColor.RED + " gibt es nicht!");
+                            } else if (args[2].equalsIgnoreCase("displayname")) {
+                                if (!TeamsFile.getConfig().getString(args[1] + ".displayname").equalsIgnoreCase(args[3])) {
+                                    TeamsFile.getConfig().set(args[1] + ".displayname", args[3]);
+                                    TeamsFile.saveConfig();
+                                    for (String player : TeamsFile.getConfig().getStringList(args[1] + ".playersList"))
+                                        JoinAndQuitListener.preparePlayer(Bukkit.getPlayer(player));
+                                    sender.sendMessage(ChatColor.BLUE + "Displayname " + ChatColor.GREEN + args[3] +
+                                            ChatColor.BLUE + " wurde gesetzt.");
+                                } else
+                                    sender.sendMessage(ChatColor.RED + "Es hat sich nichts geändert!");
                             } else
-                                sender.sendMessage(ChatColor.RED + "Team " + ChatColor.GOLD + args[1].toLowerCase(Locale.ROOT) +
-                                        ChatColor.RED + " hat keine Spieler!");
+                                sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                        ChatColor.GOLD + "/teams edit <teamname> <color/displayname> <value>");
                         } else
-                            sender.sendMessage(ChatColor.GOLD + args[1] + ChatColor.RED + " gibt es nicht!");
+                            sender.sendMessage(ChatColor.GOLD + args[1].toLowerCase(Locale.ROOT) +
+                                    ChatColor.RED + " gibt es nicht!");
                     } else
                         sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
-                                ChatColor.GOLD + "/teams list [team]");
+                                ChatColor.GOLD + "/teams edit <teamname> <color/displayname/name> <value>");
+
+                } else if(args[0].equalsIgnoreCase("list")){
+                    if (args.length == 2) {
+                        if (args[1].equalsIgnoreCase("team")) {
+                            List<String> list = TeamsFile.getConfig().getStringList("teamsList");
+                            StringBuilder string = new StringBuilder();
+                            string.append(ChatColor.BLUE + "Es gibt " + ChatColor.GREEN + list.size() + ChatColor.BLUE +
+                                    " Teams: \n");
+                            for (int i = 1; i <= list.size(); i++) {
+                                if (i == list.size())
+                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                else
+                                    string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                            }
+                            sender.sendMessage(string.toString());
+                        } else if (args[1].equalsIgnoreCase("color")) {
+                            List<String> list = getColorsList();
+                            list.removeAll(TeamsFile.getConfig().getStringList("takenColors"));
+                            StringBuilder string = new StringBuilder();
+                            string.append(ChatColor.BLUE + "Es gibt " + ChatColor.GREEN + list.size() + ChatColor.BLUE +
+                                    " freie Farben: \n");
+                            for (int i = 1; i <= list.size(); i++) {
+                                if (i == list.size())
+                                    string.append(ChatColor.valueOf(list.get(i - 1)) + list.get(i - 1) + ChatColor.BLUE + ".");
+                                else
+                                    string.append(ChatColor.valueOf(list.get(i - 1)) + list.get(i - 1) + ChatColor.BLUE + ", ");
+                            }
+                            sender.sendMessage(string.toString());
+                        } else
+                            sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                    ChatColor.GOLD + "/teams list <team/color> [team]");
+                    } else if (args.length == 3) {
+                        if (args[1].equalsIgnoreCase("team")) {
+                            if (TeamsFile.getConfig().getStringList("teamsList").contains(args[2].toLowerCase(Locale.ROOT))) {
+                                if (TeamsFile.getConfig().contains(args[2].toLowerCase(Locale.ROOT) + ".playersList")
+                                        && !TeamsFile.getConfig().getStringList(args[2].toLowerCase(Locale.ROOT) + ".playersList").isEmpty()) {
+                                    List<String> list = TeamsFile.getConfig().getStringList(args[2].toLowerCase(Locale.ROOT) + ".playersList");
+                                    StringBuilder string = new StringBuilder();
+                                    string.append(ChatColor.BLUE + "Es gibt " + ChatColor.GREEN + list.size() + ChatColor.BLUE +
+                                            " Spieler in diesem Team: \n");
+                                    for (int i = 1; i <= list.size(); i++) {
+                                        if (i == list.size())
+                                            string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ".");
+                                        else
+                                            string.append(ChatColor.GREEN + list.get(i - 1) + ChatColor.BLUE + ", ");
+                                    }
+                                    sender.sendMessage(string.toString());
+                                } else
+                                    sender.sendMessage(ChatColor.RED + "Team " + ChatColor.GOLD + args[2].toLowerCase(Locale.ROOT) +
+                                            ChatColor.RED + " hat keine Spieler!");
+                            } else
+                                sender.sendMessage(ChatColor.GOLD + args[2].toLowerCase(Locale.ROOT) + ChatColor.RED + " gibt es nicht!");
+                        } else if (args[1].equalsIgnoreCase("color")) {
+                            sender.sendMessage(ChatColor.RED + "Zum rausfinden, welches Team die Farbe hat, nutze folgenden Command:\n" +
+                                    ChatColor.GOLD + "/teams whereis color <color>");
+                        } else
+                            sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                    ChatColor.GOLD + "/teams list <team/color> [team]");
+                    } else
+                        sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                ChatColor.GOLD + "/teams list <team/color> [team]");
                 } else if(args[0].equalsIgnoreCase("addplayer")){
                     if(args.length == 3){
                         boolean isInTeam = false;
@@ -120,7 +188,32 @@ public class TeamsCommand implements TabExecutor {
                         }
                         if(!isInTeam) {
                             if(TeamsFile.getConfig().getStringList("teamsList").contains(args[2])){
-                                
+                                List<String> list = TeamsFile.getConfig().getStringList(args[2] + ".playersList");
+                                list.add(args[1]);
+                                TeamsFile.getConfig().set(args[2] + ".playersList", list);
+                                TeamsFile.saveConfig();
+
+                                if (sender instanceof Player player && player.getDisplayName().equals(args[1])) {
+                                    sender.sendMessage(ChatColor.BLUE + "Du bist Team " + ChatColor.valueOf(TeamsFile.getConfig().getString(args[2] + ".color")) +
+                                            args[2] + ChatColor.BLUE + " beigetreten.");
+                                } else {
+                                    sender.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + args[1] + ChatColor.BLUE + " in Team " +
+                                            ChatColor.valueOf(TeamsFile.getConfig().getString(args[2] + ".color")) + args[2] + ChatColor.BLUE + " reingetan!");
+                                }
+
+                                if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1])) && sender instanceof Player player
+                                        && !player.getDisplayName().equalsIgnoreCase(args[1])) {
+                                    Bukkit.getPlayer(args[1]).sendMessage(ChatColor.BLUE + "Du wurdest in Team " +
+                                            ChatColor.valueOf(TeamsFile.getConfig().getString(args[2] + ".color")) + args[2]
+                                            + ChatColor.BLUE + " reingesteckt!");
+                                }
+                                for (String player : TeamsFile.getConfig().getStringList(args[2] + ".playersList")) {
+                                    if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(player)) && !args[1].equals(player)) {
+                                        Bukkit.getPlayer(player).sendMessage(ChatColor.GREEN + args[1] + ChatColor.BLUE + " spielt nun bei euch mit!");
+                                    }
+                                }
+                                TeamsFile.saveConfig();
+                                JoinAndQuitListener.preparePlayer(Bukkit.getPlayer(args[1]));
                             } else
                                 sender.sendMessage(ChatColor.GOLD + args[2] + ChatColor.RED + " gibt es nicht!");
                         }
@@ -129,9 +222,61 @@ public class TeamsCommand implements TabExecutor {
                                 ChatColor.GOLD + "/teams addplayer <playername> <teamname>");
                 } else if(args[0].equalsIgnoreCase("removeplayer")){
                     if(args.length == 2){
+                        boolean isInTeam = false;
+                        for (String team : TeamsFile.getConfig().getStringList("teamsList")) {
+                            if (TeamsFile.getConfig().getStringList(team + ".playersList").contains(args[1])) {
+                                if (sender instanceof Player player && player.getDisplayName().equals(args[1]))
+                                    sender.sendMessage(ChatColor.RED + "Willst du wirklich Team " + ChatColor.GOLD + team + ChatColor.RED + " verlassen?\n"
+                                            + ChatColor.RED + "Dann schreibe: " + ChatColor.GOLD + "/teams removeplayer " + args[1] + " confirm");
+                                else
+                                    sender.sendMessage(ChatColor.RED + "Willst du wirklich " + ChatColor.GOLD + args[1] +
+                                            ChatColor.RED + " aus Team " + ChatColor.GOLD + team + ChatColor.RED + " entfernen?\n"
+                                            + ChatColor.RED + "Dann schreibe: " + ChatColor.GOLD + "/teams removeplayer " + args[1] + " confirm");
+                                isInTeam = true;
+                                break;
+                            }
+                        }
+                        if (!isInTeam) {
+                            if (sender instanceof Player player && player.getDisplayName().equals(args[1]))
+                                sender.sendMessage(ChatColor.RED + "Du bist in keinem Team!");
+                            else
+                                sender.sendMessage(ChatColor.GOLD + args[1] + ChatColor.RED + " ist in keinem Team!");
+                        }
+                    } else if (args.length == 3 && args[2].equals("confirm")) {
+                        boolean isInTeam = false;
+                        for (String team : TeamsFile.getConfig().getStringList("teamsList")) {
+                            if (TeamsFile.getConfig().getStringList(team + ".playersList").contains(args[1])) {
+                                List<String> list = TeamsFile.getConfig().getStringList(team + ".playersList");
+                                list.remove(args[1]);
+                                TeamsFile.getConfig().set(team + ".playersList", list);
 
-                    } else if(args.length == 3){
+                                TeamsFile.saveConfig();
+                                JoinAndQuitListener.preparePlayer(Bukkit.getPlayer(args[1]));
 
+                                if (sender instanceof Player player && player.getDisplayName().equals(args[1]))
+                                    sender.sendMessage(ChatColor.RED + "Du hast Team " + ChatColor.GOLD + team + ChatColor.RED + " verlassen.");
+                                else {
+                                    sender.sendMessage(ChatColor.GOLD + args[1] + ChatColor.RED + " aus Team " + ChatColor.GOLD + team + ChatColor.RED + " entfernt.");
+                                    if (Bukkit.getPlayer(args[1]) != null) {
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.RED + "Du wurdest aus Team " + ChatColor.GOLD + team + ChatColor.RED + " entfernt.");
+                                    }
+                                }
+                                for (String player : TeamsFile.getConfig().getStringList(team + ".playersList")) {
+                                    if (Bukkit.getPlayer(player) != null) {
+                                        Bukkit.getPlayer(player).sendMessage(ChatColor.GOLD + args[1] + ChatColor.RED + " aus deinem Team entfernt.");
+                                    }
+                                }
+                                JoinAndQuitListener.prepareAllPlayers();
+                                isInTeam = true;
+                                break;
+                            }
+                        }
+                        if (!isInTeam) {
+                            if (sender instanceof Player player && player.getDisplayName().equals(args[1]))
+                                sender.sendMessage(ChatColor.RED + "Du bist in keinem Team!");
+                            else
+                                sender.sendMessage(ChatColor.GOLD + args[1] + ChatColor.RED + " ist in keinem Team!");
+                        }
                     } else
                         sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
                                 ChatColor.GOLD + "/teams removeplayer <player> confirm");
@@ -171,7 +316,16 @@ public class TeamsCommand implements TabExecutor {
                     } else
                         sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
                                 ChatColor.GOLD + "/teams whereis <player/color> <name>");
-                }
+                } else if (args[0].equalsIgnoreCase("reload")) {
+                    if (args.length == 1) {
+                        JoinAndQuitListener.prepareAllPlayers();
+                        sender.sendMessage(ChatColor.BLUE + "Alle Teams wurden neugeladen!");
+                    } else
+                        sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                                ChatColor.GOLD + "/teams reload");
+                } else
+                    sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
+                            ChatColor.GOLD + "/teams <create/delete/edit/list/addplayer/removeplayer> ...");
             } else
                 sender.sendMessage(ChatColor.RED + "Bitte nutze den Command so:\n" +
                         ChatColor.GOLD + "/teams <create/delete/edit/list/addplayer/removeplayer> ...");
@@ -192,6 +346,7 @@ public class TeamsCommand implements TabExecutor {
             list.add("addplayer");
             list.add("removeplayer");
             list.add("whereis");
+            list.add("reload");
         } else if (args.length == 2) {
             //teams create <name> <displayname> <color> (Weitere Tabargumente nicht nötig)
             //teams list <team/color> [team]
@@ -199,8 +354,9 @@ public class TeamsCommand implements TabExecutor {
             //teams edit <name> ...
             if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("edit")) {
                 return TeamsFile.getConfig().getStringList("teamsList");
-            } else if(args[0].equalsIgnoreCase("addplayer") || args[0].equalsIgnoreCase("removeplayer") ||
-            args[0].equalsIgnoreCase("whereis")){
+            } else if (args[0].equalsIgnoreCase("addplayer") || args[0].equalsIgnoreCase("removeplayer")) {
+                return null;
+            } else if (args[0].equalsIgnoreCase("whereis")) {
                 list.add("player");
                 list.add("color");
             } else if(args[0].equalsIgnoreCase("list")){
@@ -213,7 +369,6 @@ public class TeamsCommand implements TabExecutor {
             } else if(args[0].equalsIgnoreCase("addplayer")){
                 return TeamsFile.getConfig().getStringList("teamsList");
             } else if(args[0].equalsIgnoreCase("edit")){
-                list.add("name");
                 list.add("displayname");
                 list.add("color");
             } else if(args[0].equalsIgnoreCase("list")){
