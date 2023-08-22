@@ -50,7 +50,7 @@ public class MsgCommand implements TabExecutor {
                     for(String string : args){
                         message.append(string + " ");
                     }
-                    if(target != null){
+                    if(target != null && Bukkit.getOnlinePlayers().contains(target)){
                         if(player != target){
                             target.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + player.getDisplayName() +
                                     ChatColor.BLUE + " -> " + ChatColor.GREEN + "dir" + ChatColor.BLUE + "] " +
@@ -77,7 +77,7 @@ public class MsgCommand implements TabExecutor {
                     for(String string : args){
                         if(!string.equals(args[0])) message.append(string + " ");
                     }
-                    if(target != null){
+                    if(target != null && Bukkit.getOnlinePlayers().contains(target)){
                             target.sendMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Konsole" +
                                     ChatColor.BLUE + " -> " + ChatColor.GREEN + "dir" + ChatColor.BLUE + "] " +
                                     ChatColor.GRAY + message + "\n" +
