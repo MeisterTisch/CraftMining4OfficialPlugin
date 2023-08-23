@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public class PlayerInventoryMoveListener implements Listener {
     @EventHandler
     public void playerMovesItemEvent(InventoryClickEvent event){
+        if(event.getCurrentItem() == null) return;
         if(event.getCurrentItem().getType() == Material.ELYTRA){
             if(event.getCurrentItem().hasItemMeta()){
                 if(event.getCurrentItem().getItemMeta().getLocalizedName() != null && event.getCurrentItem().getItemMeta().hasLocalizedName()){
