@@ -1,5 +1,6 @@
 package org.craftmining.craftmining4officialplugin.misc;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -11,7 +12,10 @@ public class NoShitDoingAtSpawn implements Listener {
     BoundingBox boundingBox = new BoundingBox(-505.300,170,-50.700,-479.700,131,-76.300);
     @EventHandler
     public void noHitting(EntityDamageEvent event){
-        if(boundingBox.contains(event.getEntity().getBoundingBox())) event.setCancelled(true);
+        if (event.getEntity() instanceof Player player) {
+            if (boundingBox.contains(player.getBoundingBox()))
+                event.setCancelled(true);
+        }
     }
     @EventHandler
     public void noBlockBreaking(BlockBreakEvent event){
