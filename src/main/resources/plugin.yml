@@ -13,10 +13,12 @@ commands:
   test:
     permission: CraftMining4OfficialPlugin.testCommand
   pfu:
+    permission: CraftMining4OfficialPlugin.pfu
     description: Spucke jemanden ab!
     aliases:
       - spit
   rules:
+    permission: CraftMining4OfficialPlugin.rules
     description: Zeige dir die Regeln an!
   start:
     description: Starte die Season!
@@ -25,6 +27,7 @@ commands:
     description: Teste deinen Ping zum Server. Pong!
     permission: CraftMining4OfficialPlugin.ping
   msg:
+    permission: CraftMining4OfficialPlugin.msg
     description: Schreibe jemandem eine Nachricht.
     aliases:
       - r
@@ -40,8 +43,26 @@ commands:
       - unban
       - tempban
   teams:
+    permission: CraftMining4OfficialPlugin.teams
+    description: Manage die Teams.
 permissions:
-  CraftMining4OfficialPlugin.teamsAdmin:
+  CraftMining4OfficialPlugin.teams:
     default: op
   CraftMining4OfficialPlugin.listen:
+    default: op
+  CraftMining4OfficialPlugin.flyhigh:
+    default: op
+  CraftMining4OfficialPlugin.testCommand:
+    default: op
+  CraftMining4OfficialPlugin.pfu:
+    default: on
+  CraftMining4OfficialPlugin.rules:
+    default: on
+  CraftMining4OfficialPlugin.start:
+    default: op
+  CraftMining4OfficialPlugin.ping:
+    default: on
+  CraftMining4OfficialPlugin.msg:
+    default: on
+  CraftMining4OfficialPlugin.ban:
     default: op
