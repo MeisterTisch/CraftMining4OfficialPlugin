@@ -55,14 +55,14 @@ permissions:
   CraftMining4OfficialPlugin.testCommand:
     default: op
   CraftMining4OfficialPlugin.pfu:
-    default: on
+    default: true
   CraftMining4OfficialPlugin.rules:
-    default: on
+    default: true
   CraftMining4OfficialPlugin.start:
     default: op
   CraftMining4OfficialPlugin.ping:
-    default: on
+    default: true
   CraftMining4OfficialPlugin.msg:
-    default: on
+    default: true
   CraftMining4OfficialPlugin.ban:
     default: op
