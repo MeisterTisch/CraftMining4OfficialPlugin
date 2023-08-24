@@ -4,6 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.craftmining.craftmining4officialplugin.admin.ImportantMessageCommand;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
 import org.craftmining.craftmining4officialplugin.admin.TestCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.ListenForEventsCommand;
@@ -93,6 +94,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("listen").setExecutor(new ListenForEventsCommand());
         getCommand("test").setExecutor(new TestCommand());
         getCommand("teams").setExecutor(new TeamsCommand());
+        getCommand("important").setExecutor(new ImportantMessageCommand());
     }
 
     @Override

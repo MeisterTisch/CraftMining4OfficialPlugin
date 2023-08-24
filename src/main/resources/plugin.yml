@@ -7,6 +7,11 @@ load: POSTWORLD
 authors: [MeisterTisch]
 description: Das ist der Offizielle Plugin von und für Craft Mining 4
 commands:
+  important:
+    description: Schreibe eine wichtige Nachricht in den Chat!
+    permission: CraftMining4OfficialPlugin.important
+    aliases:
+      - im
   flyhigh:
     description: Teste die Elytra Funktion.
     permission: CraftMining4OfficialPlugin.flyhigh
@@ -65,4 +70,6 @@ permissions:
   CraftMining4OfficialPlugin.msg:
     default: true
   CraftMining4OfficialPlugin.ban:
+    default: op
+  CraftMining4OfficialPlugin.important:
     default: op
