@@ -1,7 +1,5 @@
 package org.craftmining.craftmining4officialplugin.misc;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +23,6 @@ public class AnnouncingAchievements implements Listener {
                                 for (String criteria : event.getAdvancement().getCriteria()) {
                                     progress.revokeCriteria(criteria);
                                 }
-                                return;
                             }
                         }
                     }
@@ -33,9 +30,9 @@ public class AnnouncingAchievements implements Listener {
             }
         }
 
-        Bukkit.broadcastMessage(ChatColor.GOLD + event.getPlayer().getDisplayName() +
-                ChatColor.GREEN + " hat das Achievement " +
-                ChatColor.GOLD + event.getAdvancement().getDisplay().getTitle() +
-                ChatColor.GREEN + " erledigt!");
+//        Bukkit.broadcastMessage(ChatColor.GOLD + event.getPlayer().getDisplayName() +
+//                ChatColor.GREEN + " hat das Achievement " +
+//                ChatColor.GOLD + event.getAdvancement().getDisplay().getTitle() +
+//                ChatColor.GREEN + " erledigt!");
     }
 }

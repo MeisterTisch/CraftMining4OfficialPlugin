@@ -87,6 +87,10 @@ public class TeamsCommand implements TabExecutor {
                             if (args[2].equalsIgnoreCase("color")) {
                                 if (getColorsList().contains(args[3])) {
                                     if (!TeamsFile.getConfig().getString(args[1].toLowerCase(Locale.ROOT) + ".color").equals(args[3])) {
+                                        List<String> list = TeamsFile.getConfig().getStringList("takenColors");
+                                        list.remove(args[1].toLowerCase(Locale.ROOT) + ".color");
+                                        list.add(args[3]);
+                                        TeamsFile.getConfig().set("takenColors", list);
                                         TeamsFile.getConfig().set(args[1].toLowerCase(Locale.ROOT) + ".color", args[3]);
                                         TeamsFile.saveConfig();
                                         sender.sendMessage(ChatColor.BLUE + "Farbe " + ChatColor.valueOf(args[3]) + args[3] +
@@ -343,6 +347,7 @@ public class TeamsCommand implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("reload")) {
                     //teams reload
                     if (args.length == 1) {
+                        TeamsFile.reload();
                         JoinAndQuitListener.prepareAllPlayers();
                         sender.sendMessage(ChatColor.BLUE + "Alle Teams wurden neugeladen!");
                     } else

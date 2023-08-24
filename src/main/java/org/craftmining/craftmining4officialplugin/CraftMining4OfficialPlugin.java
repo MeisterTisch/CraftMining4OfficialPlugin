@@ -10,6 +10,7 @@ import org.craftmining.craftmining4officialplugin.admin.TestCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.ListenForEventsCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.MessageListener;
 import org.craftmining.craftmining4officialplugin.admin.listening.TravelListener;
+import org.craftmining.craftmining4officialplugin.chestProtect.ProtectedChestsFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
@@ -47,10 +48,12 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         MutedPlayersFile.saveConfig();
         TeamsFile.setup();
         TeamsFile.saveConfig();
+        ProtectedChestsFile.setup();
+        ProtectedChestsFile.saveConfig();
         checkIfSeasonHasBegun();
 
         for(World world : Bukkit.getWorlds()){
-            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, true);
         }
 
         for(Player player : Bukkit.getOnlinePlayers()){
