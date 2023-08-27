@@ -72,7 +72,7 @@ public class TeamsCommand implements TabExecutor {
                             List<String> takenColors = TeamsFile.getConfig().getStringList("takenColors");
                             takenColors.remove(TeamsFile.getConfig().getString(args[1].toLowerCase(Locale.ROOT)+".color"));
                             TeamsFile.getConfig().set("takenColors", takenColors);
-                            TeamsFile.getConfig().set(args[1].toLowerCase(Locale.ROOT), "");
+                            TeamsFile.getConfig().set(args[1].toLowerCase(Locale.ROOT), null);
                             TeamsFile.saveConfig();
                             sender.sendMessage(ChatColor.BLUE + "Team " + ChatColor.GREEN + args[1] + ChatColor.BLUE + " wurde gelöscht!");
                         } else
