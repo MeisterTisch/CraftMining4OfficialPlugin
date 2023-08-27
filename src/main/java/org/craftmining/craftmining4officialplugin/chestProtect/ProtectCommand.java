@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.craftmining.craftmining4officialplugin.teams.TeamsFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,12 @@ public class ProtectCommand implements TabExecutor {
                                 player.sendMessage(ChatColor.RED + "Diese Truhe ist noch nicht eingerichtet! Bitte benutze:\n"
                                         + ChatColor.GOLD + "/protect setup <chestname>");
                             else if (args.length == 2) {
-                                GUI.createAndShowGUI(player, args[1], true);
+                                if(ProtectedChestsFile.getConfig().getStringList(player.getDisplayName()+".chestsNameList").size() < 5){
+                                    GUI.createAndShowGUI(player, args[1], true);
+                                } else
+                                    player.sendMessage(ChatColor.RED + "Du hast schon " + ChatColor.GOLD +
+                                            ProtectedChestsFile.getConfig().getStringList(player.getDisplayName()+".chestsNameList").size()
+                                    + ChatColor.RED + " Truhen. Das ist das Maximum.");
                             } else
                                 player.sendMessage(ChatColor.RED + "Bitte benutze den Command so:\n"
                                         + ChatColor.GOLD + "/protect setup <chestname>");

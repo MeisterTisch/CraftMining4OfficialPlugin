@@ -4,5 +4,10 @@ import org.bukkit.entity.Player;
 
 public class GUI {
     public static void createAndShowGUI(Player player, String chestName, boolean isSetup) {
+        if(isSetup){
+
+        } else {
+
+        }
     }
 }
