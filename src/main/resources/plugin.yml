@@ -50,7 +50,11 @@ commands:
   teams:
     permission: CraftMining4OfficialPlugin.teams
     description: Manage die Teams.
+  home:
+    permission: CraftMining4OfficialPlugin.home
 permissions:
+  CraftMining4OfficialPlugin.home:
+    default: true
   CraftMining4OfficialPlugin.teams:
     default: op
   CraftMining4OfficialPlugin.listen:

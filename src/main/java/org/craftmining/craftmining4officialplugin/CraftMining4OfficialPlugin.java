@@ -15,6 +15,8 @@ import org.craftmining.craftmining4officialplugin.fileManagers.BannedPlayersFile
 import org.craftmining.craftmining4officialplugin.fileManagers.MutedPlayersFile;
 import org.craftmining.craftmining4officialplugin.fileManagers.PlayerManagerFile;
 import org.craftmining.craftmining4officialplugin.fun.PfuCommand;
+import org.craftmining.craftmining4officialplugin.homeSystem.HomeCommand;
+import org.craftmining.craftmining4officialplugin.homeSystem.HomesFile;
 import org.craftmining.craftmining4officialplugin.misc.AnnouncingAchievements;
 import org.craftmining.craftmining4officialplugin.misc.AsynChatListener;
 import org.craftmining.craftmining4officialplugin.misc.NoShitDoingAtSpawn;
@@ -50,6 +52,8 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         TeamsFile.saveConfig();
         ProtectedChestsFile.setup();
         ProtectedChestsFile.saveConfig();
+        HomesFile.setup();
+        HomesFile.saveConfig();
         checkIfSeasonHasBegun();
 
         for(World world : Bukkit.getWorlds()){
@@ -98,6 +102,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("test").setExecutor(new TestCommand());
         getCommand("teams").setExecutor(new TeamsCommand());
         getCommand("important").setExecutor(new ImportantMessageCommand());
+        getCommand("home").setExecutor(new HomeCommand());
     }
 
     @Override
