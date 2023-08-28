@@ -52,6 +52,11 @@ commands:
     description: Manage die Teams.
   home:
     permission: CraftMining4OfficialPlugin.home
+  teleport:
+    aliases:
+      - tp
+    description: Requeste ein TP zu einem Spieler, oder anders rum.
+    permission: CraftMining4OfficialPlugin.teleport
 permissions:
   CraftMining4OfficialPlugin.home:
     default: true
@@ -77,3 +82,5 @@ permissions:
     default: op
   CraftMining4OfficialPlugin.important:
     default: op
+  CraftMining4OfficialPlugin.teleport:
+    default: true

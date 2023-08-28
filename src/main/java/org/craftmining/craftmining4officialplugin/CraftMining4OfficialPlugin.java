@@ -31,6 +31,8 @@ import org.craftmining.craftmining4officialplugin.newPlayers.rules.MoveListener;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsFile;
+import org.craftmining.craftmining4officialplugin.tpSystem.TPCommand;
+import org.craftmining.craftmining4officialplugin.tpSystem.TPFile;
 
 public final class CraftMining4OfficialPlugin extends JavaPlugin {
     PluginManager pluginManager;
@@ -54,6 +56,8 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         ProtectedChestsFile.saveConfig();
         HomesFile.setup();
         HomesFile.saveConfig();
+        TPFile.setup();
+        TPFile.saveConfig();
         checkIfSeasonHasBegun();
 
         for(World world : Bukkit.getWorlds()){
@@ -103,6 +107,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("teams").setExecutor(new TeamsCommand());
         getCommand("important").setExecutor(new ImportantMessageCommand());
         getCommand("home").setExecutor(new HomeCommand());
+        getCommand("teleport").setExecutor(new TPCommand());
     }
 
     @Override
