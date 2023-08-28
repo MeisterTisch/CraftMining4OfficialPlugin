@@ -62,6 +62,12 @@ commands:
       - fo
     description: Fakeope jemanden.
     permission: CraftMining4OfficialPlugin.fakeop
+  invsee:
+    description: Schau dir das Inventory von einem Spieler an.
+    permission: CraftMining4OfficialPlugin.invsee
+  endsee:
+    description: Schau dir das Endchest-Inventory von einem Spieler an.
+    permission: CraftMining4OfficialPlugin.endsee
 permissions:
   CraftMining4OfficialPlugin.home:
     default: true
@@ -90,4 +96,8 @@ permissions:
   CraftMining4OfficialPlugin.teleport:
     default: true
   CraftMining4OfficialPlugin.fakeop:
+    default: op
+  CraftMining4OfficialPlugin.invsee:
+    default: op
+  CraftMining4OfficialPlugin.endsee:
     default: op

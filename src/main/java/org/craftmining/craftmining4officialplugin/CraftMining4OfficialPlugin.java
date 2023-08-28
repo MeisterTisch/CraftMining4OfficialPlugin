@@ -8,6 +8,8 @@ import org.craftmining.craftmining4officialplugin.admin.FakeOpCommand;
 import org.craftmining.craftmining4officialplugin.admin.ImportantMessageCommand;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
 import org.craftmining.craftmining4officialplugin.admin.TestCommand;
+import org.craftmining.craftmining4officialplugin.admin.invSee.EndseeCommand;
+import org.craftmining.craftmining4officialplugin.admin.invSee.InvseeCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.ListenForEventsCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.MessageListener;
 import org.craftmining.craftmining4officialplugin.admin.listening.TravelListener;
@@ -110,6 +112,8 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("home").setExecutor(new HomeCommand());
         getCommand("teleport").setExecutor(new TPCommand());
         getCommand("fakeop").setExecutor(new FakeOpCommand());
+        getCommand("invsee").setExecutor(new InvseeCommand());
+        getCommand("endsee").setExecutor(new EndseeCommand());
     }
 
     @Override
