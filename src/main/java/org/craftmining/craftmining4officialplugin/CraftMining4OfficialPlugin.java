@@ -4,6 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.craftmining.craftmining4officialplugin.admin.FakeOpCommand;
 import org.craftmining.craftmining4officialplugin.admin.ImportantMessageCommand;
 import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
 import org.craftmining.craftmining4officialplugin.admin.TestCommand;
@@ -108,6 +109,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("important").setExecutor(new ImportantMessageCommand());
         getCommand("home").setExecutor(new HomeCommand());
         getCommand("teleport").setExecutor(new TPCommand());
+        getCommand("fakeop").setExecutor(new FakeOpCommand());
     }
 
     @Override

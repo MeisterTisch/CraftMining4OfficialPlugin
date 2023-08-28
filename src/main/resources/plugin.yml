@@ -57,6 +57,11 @@ commands:
       - tp
     description: Requeste ein TP zu einem Spieler, oder anders rum.
     permission: CraftMining4OfficialPlugin.teleport
+  fakeop:
+    aliases:
+      - fo
+    description: Fakeope jemanden.
+    permission: CraftMining4OfficialPlugin.fakeop
 permissions:
   CraftMining4OfficialPlugin.home:
     default: true
@@ -84,3 +89,5 @@ permissions:
     default: op
   CraftMining4OfficialPlugin.teleport:
     default: true
+  CraftMining4OfficialPlugin.fakeop:
+    default: op
