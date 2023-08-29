@@ -34,10 +34,12 @@ public class TPCommand implements TabExecutor {
                             if (!TPFile.getConfig().contains(receiver.getDisplayName()) || TPFile.getConfig().getBoolean(receiver.getDisplayName())) {
                                 if (args[0].equals("to")) {
                                     tpQueue.TELEPORT_REQUESTS.put(receiver, new TeleportRequest(player, false));
+                                    player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + receiver.getDisplayName() + ChatColor.BLUE + " angefragt, dich zu ihm zu teleportieren.");
                                     receiver.sendMessage(ChatColor.GREEN + player.getName() + ChatColor.BLUE + " hat angefragt sich zu dir zu teleportieren!\n" +
                                             ChatColor.BLUE + "Nutze " + ChatColor.GREEN + "/tp accept/decline " + ChatColor.BLUE + " um anzunehmen/abzulehnen.");
                                 } else if (args[0].equals("here")) {
                                     tpQueue.TELEPORT_REQUESTS.put(receiver, new TeleportRequest(player, true));
+                                    player.sendMessage(ChatColor.BLUE + "Du hast " + ChatColor.GREEN + receiver.getDisplayName() + ChatColor.BLUE + " angefragt, ihn zu dir zu teleportieren.");
                                     receiver.sendMessage(ChatColor.GREEN + player.getName() + ChatColor.BLUE + " hat angefragt dich zu ihm zu teleportieren!\n" +
                                             ChatColor.BLUE + "Nutze " + ChatColor.GREEN + "/tp accept/decline " + ChatColor.BLUE + " um anzunehmen/abzulehnen.");
                                 }
