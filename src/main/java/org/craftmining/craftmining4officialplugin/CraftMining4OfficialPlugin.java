@@ -32,6 +32,7 @@ import org.craftmining.craftmining4officialplugin.newPlayers.elytraBegin.PlayerL
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.JoinListenerForRules;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.MoveListener;
 import org.craftmining.craftmining4officialplugin.newPlayers.rules.RulesCommand;
+import org.craftmining.craftmining4officialplugin.teams.TeamMessageCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsCommand;
 import org.craftmining.craftmining4officialplugin.teams.TeamsFile;
 import org.craftmining.craftmining4officialplugin.tpSystem.TPCommand;
@@ -114,6 +115,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
         getCommand("fakeop").setExecutor(new FakeOpCommand());
         getCommand("invsee").setExecutor(new InvseeCommand());
         getCommand("endsee").setExecutor(new EndseeCommand());
+        getCommand("teammsg").setExecutor(new TeamMessageCommand());
     }
 
     @Override

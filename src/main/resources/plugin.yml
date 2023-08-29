@@ -68,6 +68,9 @@ commands:
   endsee:
     description: Schau dir das Endchest-Inventory von einem Spieler an.
     permission: CraftMining4OfficialPlugin.endsee
+  teammsg:
+    description: Schreibe an dein Team eine Nachricht.
+    permission: CraftMining4OfficialPlugin.teammsg
 permissions:
   CraftMining4OfficialPlugin.home:
     default: true
@@ -101,3 +104,5 @@ permissions:
     default: op
   CraftMining4OfficialPlugin.endsee:
     default: op
+  CraftMining4OfficialPlugin.teammsg:
+    default: true
