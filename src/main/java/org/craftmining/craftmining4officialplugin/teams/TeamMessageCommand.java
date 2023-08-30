@@ -26,7 +26,7 @@ public class TeamMessageCommand implements TabExecutor {
             if(team != null){
                 StringBuilder message = new StringBuilder();
                 for(String string : args)
-                    message.append(string);
+                    message.append(string + " ");
 
                 for(Player onlinePlayer : Bukkit.getOnlinePlayers())
                     if(TeamsFile.getConfig().getStringList(team+".playersList").contains(onlinePlayer.getDisplayName())
