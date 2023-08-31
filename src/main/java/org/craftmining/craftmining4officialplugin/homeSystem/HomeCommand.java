@@ -67,7 +67,7 @@ public class HomeCommand implements TabExecutor {
                     case "create" -> {
                         if(args.length == 2){
                             List<String> list = HomesFile.getConfig().getStringList(name + ".homesList");
-                            if(list.size() < 3){
+                            if(list.size() < 5){
                                 if(!list.contains(args[1])){
                                     Location loc = player.getLocation();
                                     String locName = args[1];
