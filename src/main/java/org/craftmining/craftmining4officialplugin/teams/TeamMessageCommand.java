@@ -33,6 +33,8 @@ public class TeamMessageCommand implements TabExecutor {
                     && onlinePlayer != player)
                         onlinePlayer.sendMessage(ChatColor.BLUE + "Message an das Team von " + ChatColor.GREEN + player.getDisplayName() + ChatColor.BLUE + ":\n" +
                                 ChatColor.GRAY + message);
+                player.sendMessage(ChatColor.BLUE + "Message an das Team von " + ChatColor.GREEN + "dir" + ChatColor.BLUE + ":\n" +
+                        ChatColor.GRAY + message);
             } else
                 player.sendMessage(ChatColor.RED + "Du bist in keinem Team!");
         } else
