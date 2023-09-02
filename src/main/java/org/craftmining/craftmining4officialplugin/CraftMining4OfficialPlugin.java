@@ -4,10 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.craftmining.craftmining4officialplugin.admin.FakeOpCommand;
-import org.craftmining.craftmining4officialplugin.admin.ImportantMessageCommand;
-import org.craftmining.craftmining4officialplugin.admin.StartSeasonCommand;
-import org.craftmining.craftmining4officialplugin.admin.TestCommand;
+import org.craftmining.craftmining4officialplugin.admin.*;
 import org.craftmining.craftmining4officialplugin.admin.invSee.EndseeCommand;
 import org.craftmining.craftmining4officialplugin.admin.invSee.InvseeCommand;
 import org.craftmining.craftmining4officialplugin.admin.listening.ListenForEventsCommand;
@@ -130,7 +127,7 @@ public final class CraftMining4OfficialPlugin extends JavaPlugin {
             for(World world : Bukkit.getWorlds()){
                 world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
                 world.setGameRule(GameRule.DO_WEATHER_CYCLE, true);
-                world.setDifficulty(Difficulty.NORMAL);
+                world.setDifficulty(Difficulty.HARD);
             }
 
         } else {
